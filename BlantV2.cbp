@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BlantV2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/BlantV2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/BlantV2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="NRswitchg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="addedgeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="amtog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="binaryutil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="binaryutil.h" />
+		<Unit filename="biplabg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="blantv2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bliss2dre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="blisstog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="callgeng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="catg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="checks6.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="complg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="converseg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="copyg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cubhamg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="deledgeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="delptg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="directg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dreadnaut.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dretodot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dretog.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="genbg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="geng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="genquarticg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="genrang.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="genspecialg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gentourng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gentreeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gtnauty.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gtools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gtools.h" />
+		<Unit filename="gutil1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gutil2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gutils.h" />
+		<Unit filename="hamheuristic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="labelg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="linegraphg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="listg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="multig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naucompare.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naugraph.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naugroup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naugroup.h" />
+		<Unit filename="naugstrings.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naugstrings.h" />
+		<Unit filename="naurng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naurng.h" />
+		<Unit filename="nausparse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nausparse.h" />
+		<Unit filename="nautaux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautaux.h" />
+		<Unit filename="nautest.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nauthread1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nauthread2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautinv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautinv.h" />
+		<Unit filename="naututil.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="naututil.h" />
+		<Unit filename="nauty.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nauty.h" />
+		<Unit filename="nautyex1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex10.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex5.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex6.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex7.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nautyex9.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="newedgeg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="planarg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="planarity.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="planarity.h" />
+		<Unit filename="poptest.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="quarticirred28.h" />
+		<Unit filename="ranlabg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rng.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="rng.h" />
+		<Unit filename="schreier.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="schreier.h" />
+		<Unit filename="shortg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="showg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sorttemplates.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="subdivideg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="testg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="traces.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="traces.h" />
+		<Unit filename="twohamg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vcolg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="watercluster2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
