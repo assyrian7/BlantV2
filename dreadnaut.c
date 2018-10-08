@@ -1,112 +1,5 @@
-/*****************************************************************************
-*                                                                            *
-* This is the main file for dreadnaut() version 2.6, which is a test-bed     *
-*   for nauty() version 2.6.                                                 *
-*                                                                            *
-*   Subject to the copyright notice in the file COPYRIGHT.                   *
-*                                                                            *
-*   CHANGE HISTORY                                                           *
-*       10-Nov-87 : final changes for version 1.2                            *
-*        5-Dec-87 - replaced all uses of fscanf() by appropriate uses        *
-*                   of the new procedures readinteger() and readstring()     *
-*                 - changed the '<' command slightly.  If a file of the      *
-*                   given name cannot be openned, an attempt is made to      *
-*                   open a file with the same name extended by DEFEXT.       *
-*                 - improved error processing for 'n' command.               *
-*       28-Sep-88 : changes for version 1.4 :                                *
-*                 - replaced incorrect %d by %ld in fprintf for ? command    *
-*       23-Mar-89 : changes for version 1.5 :                                *
-*                 - added optional startup message                           *
-*                 - enabled use of refine1 in 'i' command                    *
-*                 - implemented $$ command                                   *
-*                 - replaced ALLOCS test by DYNALLOC test                    *
-*                 - modified @ command and added # command                   *
-*                 - declared local procedures static                         *
-*       25-Mar-89 - implemented k command                                    *
-*       27-Mar-89 - implemented * and I commands                             *
-*       29-Mar-89 - implemented K command                                    *
-*        2-Apr-89 - added reporting of vertex-invariant statistics           *
-*        2-Apr-89 - added ## command                                         *
-*        4-Apr-89 - added triples(), quadruples(), adjtriang()               *
-*                 - updated error reporting for nauty()                      *
-*        5-Apr-89 - removed flushline() from g and e commands                *
-*                 - added T command                                          *
-*        6-Apr-89 - added cellquads() and distances()                        *
-*       26-Apr-89 - modified ? command, added & and && commands              *
-*                 - added indsets(), cliques(), cellquins()                  *
-*       18-Aug-89 - made g, lab, canong dynamically allocated always         *
-*        2-Mar-90 - added celltrips(), cellcliq(), cellind()                 *
-*       13-Mar-90 - changed canong and savedg in output to h and h'          *
-*       19-Mar-90 - revised help() a little                                  *
-*       19-Apr-90 : changes for version 1.6                                  *
-*                 - rewrote "*" command to avoid bug in Pyramid C compiler   *
-*       20-Apr-90 - rewrote above rewrite to avoid bug in SUN3 gcc           *
-*       23-Apr-90 - undid above rewrite and fixed *my* bug <blush> by        *
-*                   making NUMINVARS have type int.  Sorry, gcc.             *
-*       10-Nov-90 - added calls to null routines (see comment on code)       *
-*       27-Aug-92 : renamed to version 1.7, no changes to this file          *
-*        5-Jun-93 : renamed to version 1.7+, no changes to this file         *
-*       18-Aug-93 : renamed to version 1.8, no changes to this file          *
-*       17-Sep-93 : changes for version 1.9 :                                *
-*                 - added invariant adjacencies()                            *
-*        7-Jun-96 : changes for version 2.0 :                                *
-*                 - added invariants cellfano() and cellfano2()              *
-*                 - made y=10 the default                                    *
-*       11-Jul-96 - added dynamic allocation                                 *
-*                 - rewrote h command and added H command                    *
-*                 - implemented M and R commands                             *
-*       15-Aug-96 - changed z command to use sethash()                       *
-*       30-Aug-96 - no need to declare seed; already in naututil.h           *
-*       12-Sep-96 - let i and I commands use userrefproc                     *
-*        9-Dec-96 - made y=infinity the default                              *
-*        6-Sep-97 - allocated arrays before accepting commands               *
-*        7-Sep-97 - make g,canong,savedg 1-d arrays even statically          *
-*       22-Sep-97 - undid error introduced on 7-Sep (worksize)               *
-*        9-Jan-00 - used *_check() instead of *_null()                       *
-*       12-Feb-00 - minor code formatting                                    *
-*       17-Aug-00 - now use tc_level from DEFAULTOPTIONS                     *
-*       16-Nov-00 - made changes listed in nauty.h                           *
-*       22-Apr-01 - include nautyinv.h                                       *
-*                 - improve worksize processing for MAXN=0                   *
-*        5-May-01 - k=0 1 automatic for *, also K=3 or K=0                   *
-*        2-Jun-01 - added __ command for digraph converse                    *
-*       18-Oct-01 - moved WORKSIZE to here                                   *
-*       21-Nov-01 - use NAUTYREQUIRED in *_check() calls                     *
-*        1-Sep-02 - Undid the previous change                                *
-*       17-Nov-03 - Changed INFINITY to NAUTY_INFINITY                       *
-*       15-Nov-04 - Completed all prototypes                                 *
-*       23-Nov-06 - no usertcellproc() any more in version 2.4               *
-*       10-Nov-09 - removed types shortish and permutation                   *
-*       17-Nov-09 - added sparsegraphs, schreier, A and G commands           *
-*       19-Nov-09 - added F command, stub for Traces                         *
-*        1-Dec-09 - added traces refinement, M also applies to i             *
-*       16-Dec-09 - added sr# command for random regular graphs              *
-*       19-Dec-09 - added s# command for the sparse case                     *
-*                 - w command is in units of 2*m now                         *
-*       19-May-10 - Incorporate traces canonical labelling                   *
-*        7-Jun-10 - implement %, _ and __ commands for sparse format         *
-*        8-Jun-10 - add O and P commands, and sparse && command              *
-*       11-Jun-10 - revise command-line parameters                           *
-*       14-Jun-10 - digraphs and invariants (top level only) in Traces       *
-*       26-Oct-10 - fix u command for sparse graphs; default G=10            *
-*       14-Mar-11 - store partition with savedg                              *
-*       21-Jul-11 - extend M command                                         *
-*       24-Oct-11 - add S and OO commands                                    *
-*       15-Jan-12 - use putorbitsplus() if USE_ANSICONTROLS                  *
-*       20-Sep-12 - the first argument of ungetc is int, not char            *
-*       18-Jan-13 - add code for ^C catching in nauty                        *
-*                 - add usercanonproc sample                                 *
-*                 - ->> means flush output file                              *
-*       14-Nov-14 - fix numcells calculation in 'OO' command                 *
-*       16-Mar-15 - add B command                                            *
-*       16-Dec-15 - add r& command                                           *
-*       22-Jan-16 - commands with short arguments must be all on one line    *
-*                 - most errors cause rest of input line to be skipped       *
-*       19-Feb-16 - make R command induce a partition if one is defined      *
-*                                                                            *
-*****************************************************************************/
-
-#include "gtools.h"    /* which includes nauty.h, which includes stdio.h */
+/*
+#include "gtools.h"    // which includes nauty.h, which includes stdio.h
 #include "nautinv.h"
 #include "schreier.h"
 #include "traces.h"
@@ -132,7 +25,7 @@
 #define SORT_NAME sort2ints
 #define SORT_TYPE1 int
 #define SORT_TYPE2 int
-#include "sorttemplates.c"   /* define sort2ints(a,b,n) */
+#include "sorttemplates.c"   // define sort2ints(a,b,n)
 
 #define INFILE fileptr[curfile]
 #define SCHREIER_DEFAULT 10
@@ -181,7 +74,7 @@ static int curfile;
 static FILE *fileptr[MAXIFILES];
 static FILE *outfile;
 static char def_ext[] = DEFEXT;
-static boolean firstpath;       /* used in usernode() */
+static boolean firstpath;       // used in usernode()
 
 DEFAULTOPTIONS_TRACES(traces_opts);
 static TracesStats traces_stats;
@@ -201,10 +94,10 @@ static TracesStats traces_stats;
 
 static int mode;
 
-#define U_NODE  1               /* masks for u values */
+#define U_NODE  1               // masks for u values
 #define U_AUTOM 2
 #define U_LEVEL 4
-#define U_TCELL 8     /* At version 2.4, usertcellproc() is gone */
+#define U_TCELL 8     // At version 2.4, usertcellproc() is gone
 #define U_REF  16
 #define U_CANON 32
 
@@ -315,11 +208,11 @@ EXTRADECLS
 *                                                                            *
 *  Routines for catching SIGINT                                              *
 *                                                                            *
-*****************************************************************************/
-/*
+****************************************************************************
+
 void
 sigintcatcher(int sig)
-/* This is the routine called on SIGINT receipt.
+//This is the routine called on SIGINT receipt.
 {
     struct sigaction ss;
 
@@ -329,8 +222,8 @@ sigintcatcher(int sig)
     ss.sa_flags = 0;
     sigaction(SIGINT,&ss,0);
 }
-*/
-/*
+
+
 static void
 setsigcatcher(void)
 {
@@ -342,8 +235,8 @@ setsigcatcher(void)
     ss.sa_flags = 0;
     sigaction(SIGINT,&ss,0);
 }
-*/
-/*
+
+
 static void
 unsetsigcatcher(void)
 {
@@ -355,7 +248,7 @@ unsetsigcatcher(void)
     ss.sa_flags = 0;
     sigaction(SIGINT,&ss,0);
 }
-*/
+
 #else
 static void
 setsigcatcher(void)
@@ -375,8 +268,8 @@ unsetsigcatcher(void)
 *  commas or not separated.  Output is written to stdout.                    *
 *  For a short description, see the nauty User's Guide.                      *
 *                                                                            *
-*****************************************************************************/
-/*
+*****************************************************************************
+
 int
 main(int argc, char *argv[])
 {
@@ -428,7 +321,7 @@ main(int argc, char *argv[])
     options_mininvarlevel = options.mininvarlevel;
     options_maxinvarlevel = options.maxinvarlevel;
     options_invararg = options.invararg;
-    options_invarproc = 1; /* index into invarproc[]
+    options_invarproc = 1; // index into invarproc[]
     options_tc_level = options.tc_level;
     options_cartesian = options.cartesian;
     options_linelength = options.linelength;
@@ -465,8 +358,8 @@ main(int argc, char *argv[])
     umask = 0;
     pvalid = FALSE;
     ovalid = FALSE;
-    gvalid = gvalid_sg = FALSE;  /* at most one valid
-    cvalid = cvalid_sg = FALSE;  /* at most one valid
+    gvalid = gvalid_sg = FALSE;  // at most one valid
+    cvalid = cvalid_sg = FALSE;  // at most one valid
     sgorg = labelorg = oldorg = 0;
     sgn = 0;
     multiplicity = 1;
@@ -587,7 +480,7 @@ main(int argc, char *argv[])
             {
 	        while (*ap == '=' || *ap == ' ') ++ap;
                 arg_int(&ap,&i,"S");
-/*
+
                 if (i < 0) fprintf(ERRFILE,"strategy must be >= 0\n");
                 else       options_strategy = i;
 
@@ -689,12 +582,12 @@ main(int argc, char *argv[])
         }
         else switch (c)
         {
-        case '\n':  /* possibly issue prompt
+        case '\n':  //possibly issue prompt
             if (prompt) fprintf(PROMPTFILE,"> ");
             minus = FALSE;
             break;
 
-        case ' ':   /* do nothing
+        case ' ':   // do nothing
         case '\t':
 #ifndef  NLMAP
         case '\r':
@@ -702,17 +595,17 @@ main(int argc, char *argv[])
         case '\f':
             break;
 
-        case '-':   /* remember this for next time
+        case '-':   // remember this for next time
             minus = TRUE;
             break;
 
-        case '+':   /* forget -
+        case '+':   // forget -
         case ',':
         case ';':
             minus = FALSE;
             break;
 
-        case '<':   /* new input file
+        case '<':   // new input file
             minus = FALSE;
             if (curfile == MAXIFILES - 1)
 	    {
@@ -747,7 +640,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case '>':   /* new output file, or flush output file
+        case '>':   // new output file, or flush output file
             if ((d = getc(INFILE)) != '>') ungetc(d,INFILE);
             if (minus)
             {
@@ -786,7 +679,7 @@ main(int argc, char *argv[])
             minus = FALSE;
 	    break;
 
-        case '!':   /* ignore rest of line
+        case '!':   // ignore rest of line
             do
                 c = getc(INFILE);
             while (c != '\n' && c != EOF);
@@ -794,7 +687,7 @@ main(int argc, char *argv[])
             break;
 
 //        #Graph creation initialization
-        case 'n':   /* read n value
+        case 'n':   // read n value
             minus = FALSE;
             i = getint_sl(INFILE);
             if (i <= 0 || (MAXN && i > MAXN)
@@ -826,7 +719,7 @@ main(int argc, char *argv[])
             }
             break;
 
-        case 'g':   /* read graph
+        case 'g':   // read graph
             minus = FALSE;
             if (SPARSEREP(mode))
             {
@@ -848,7 +741,7 @@ main(int argc, char *argv[])
             ovalid = FALSE;
             break;
 
-        case 'e':   /* edit graph
+        case 'e':   // edit graph
             minus = FALSE;
             if (SPARSEREP(mode))
             {
@@ -865,7 +758,7 @@ main(int argc, char *argv[])
             }
             break;
 
-        case 'r':   /* relabel graph and current partition
+        case 'r':   // relabel graph and current partition
             minus = FALSE;
 	    if ((d = getc(INFILE)) != '&') ungetc(d,INFILE);
             if (gvalid_sg)
@@ -913,7 +806,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'R':   /* form subgraph
+        case 'R':   // form subgraph
             if (gvalid)
             {
 #if !MAXN
@@ -973,7 +866,7 @@ main(int argc, char *argv[])
             minus = FALSE;
             break;
 
-        case '_':   /* complement graph or converse digraph
+        case '_':   // complement graph or converse digraph
             minus = FALSE;
             if ((d = getc(INFILE)) != '_') ungetc(d,INFILE);
 
@@ -1005,7 +898,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case '@':   /* copy canong into savedg
+        case '@':   // copy canong into savedg
             minus = FALSE;
             if (cvalid)
             {
@@ -1045,7 +938,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case '#':   /* compare canong to savedg
+        case '#':   // compare canong to savedg
             if ((d = getc(INFILE)) != '#') ungetc(d,INFILE);
 
             if (cvalid || cvalid_sg)
@@ -1098,7 +991,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'j':   /* relabel graph randomly
+        case 'j':   // relabel graph randomly
             minus = FALSE;
             if (gvalid)
             {
@@ -1126,7 +1019,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'v':   /* write vertex degrees
+        case 'v':   // write vertex degrees
             minus = FALSE;
             if ((d = getc(INFILE)) != 'v') ungetc(d,INFILE);
 
@@ -1147,7 +1040,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case '%':   /* do Mathon doubling operation
+        case '%':   // do Mathon doubling operation
             minus = FALSE;
             if (gvalid || gvalid_sg)
             {
@@ -1210,7 +1103,7 @@ main(int argc, char *argv[])
             }
             break;
 
-        case 's':   /* generate random graph
+        case 's':   // generate random graph
             minus = FALSE;
 	    d = getc(INFILE);
 	    if (d == 'r')
@@ -1266,16 +1159,16 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'q':   /* quit
+        case 'q':   // quit
             EXIT;
             break;
 
-        case '"':   /* copy comment to output
+        case '"':   // copy comment to output
             minus = FALSE;
             copycomment(INFILE,outfile,'"');
             break;
 
-        case 'I':   /* do refinement and invariants procedure
+        case 'I':   // do refinement and invariants procedure
 	    minus = FALSE;
 	    if (!gvalid && !gvalid_sg)
 	    {
@@ -1341,7 +1234,7 @@ main(int argc, char *argv[])
             if (numcells > 1) pvalid = TRUE;
             break;
 
-        case 'i':   /* do refinement
+        case 'i':   // do refinement
 	    minus = FALSE;
 	    if (!gvalid && !gvalid_sg)
 	    {
@@ -1392,7 +1285,7 @@ main(int argc, char *argv[])
 	        else if (mode == SPARSE_MODE)
 		    refine_sg((graph*)&g_sg,lab,ptn,0,&numcells,perm,active,
 							         &refcode,m,n);
-	        else  /* traces mode
+	        else  // traces mode
 		    refine_tr(&g_sg,lab,ptn,&numcells,&refcode,&traces_opts);
 
 		++actmult;
@@ -1417,7 +1310,7 @@ main(int argc, char *argv[])
 #endif
             break;
 
-        case 'x':   /* execute nauty
+        case 'x':   // execute nauty
             minus = FALSE;
             if (mode == TRACES_MODE)
 	    {
@@ -1714,6 +1607,7 @@ main(int argc, char *argv[])
                     else
                         fprintf(ERRFILE,
                         "nauty returned error status %d [this can't happen]\n",
+
                            stats.errstatus);
 		    cvalid = cvalid_sg = ovalid = FALSE;
 		}
@@ -1735,7 +1629,7 @@ main(int argc, char *argv[])
                         fprintf(outfile," (%lu bad lea%s)",
                             SS(stats.numbadleaves,"f","ves"));
                     fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    /* fprintf(outfile,"tctotal=%lu",stats.tctotal);
+                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
                     if (options_getcanon)
                         fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
 #ifdef  CPUTIME
@@ -1774,7 +1668,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'A':   /* change mode, with possible conversion
+        case 'A':   //change mode, with possible conversion
 	    minus = FALSE;
 	    oldmode = mode;
 	    d = getc(INFILE);
@@ -1812,10 +1706,10 @@ main(int argc, char *argv[])
 		}
 	    }
 	    cvalid = cvalid_sg = FALSE;
-	    sgn = 0;    /* invalidate saved graph
+	    sgn = 0;    // invalidate saved graph
 	    break;
 
-        case 'f':   /* read initial partition
+        case 'f':   // read initial partition
 
             if (minus)
             {
@@ -1830,7 +1724,7 @@ main(int argc, char *argv[])
             }
             break;
 
-	case 'F':   /* individualise one more vertex
+	case 'F':   // individualise one more vertex
             if ((d = getc(INFILE)) != 'F') ungetc(d,INFILE);
 	    minus = FALSE;
 	    if (d != 'F')
@@ -1864,7 +1758,7 @@ main(int argc, char *argv[])
 		else if (mode == SPARSE_MODE)
 		    i = targetcell_sg((graph*)&g_sg,lab,ptn,0,1,
 						options_digraph,-1,m,n);
-		else /* Traces mode
+		else // Traces mode
 	        {
 		    maxsize = 0;
 		    for (cell1 = 0; cell1 < n; cell1 = cell2 + 1)
@@ -1888,7 +1782,7 @@ main(int argc, char *argv[])
 	    freeschreier(NULL,&generators);
 	    break;
 
-        case 't':   /* type graph
+        case 't':   // type graph
             minus = FALSE;
             if (gvalid)
                 putgraph(outfile,g,options_linelength,m,n);
@@ -1901,7 +1795,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'T':   /* type graph preceded by n, $ and g commands
+        case 'T':   // type graph preceded by n, $ and g commands
             minus = FALSE;
             if (gvalid)
             {
@@ -1922,7 +1816,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'u':   /* call user procs
+        case 'u':   // call user procs
             if (minus)
             {
                 umask = 0;
@@ -1940,7 +1834,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'o':   /* type orbits
+        case 'o':   // type orbits
             minus = FALSE;
             if (ovalid)
                 PUTORBITS(outfile,orbits,options_linelength,n);
@@ -1951,7 +1845,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'O':   /* make orbits into a partition
+        case 'O':   // make orbits into a partition
             minus = FALSE;
             if ((d = getc(INFILE)) != 'O') ungetc(d,INFILE);
 
@@ -2037,7 +1931,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'b':   /* type canonlab and canong
+        case 'b':   // type canonlab and canong
             minus = FALSE;
             if (cvalid)
                 putcanon(outfile,lab,canong,options_linelength,m,n);
@@ -2053,7 +1947,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'z':   /* type hashcode for canong
+        case 'z':   // type hashcode for canong
             minus = FALSE;
             if (cvalid)
             {
@@ -2085,12 +1979,12 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'c':   /* set getcanon option
+        case 'c':   // set getcanon option
             options_getcanon = !minus;
             minus = FALSE;
             break;
 
-        case 'w':   /* read size of workspace
+        case 'w':   // read size of workspace
             minus = FALSE;
             worksize = getint_sl(INFILE);
 #if MAXN
@@ -2103,17 +1997,17 @@ main(int argc, char *argv[])
 #endif
             break;
 
-        case 'l':   /* read linelength for output
+        case 'l':   // read linelength for output
             options_linelength = getint_sl(INFILE);
             minus = FALSE;
             break;
 
-        case 'y':   /* set tc_level field of options
+        case 'y':   // set tc_level field of options
             options_tc_level = getint_sl(INFILE);
             minus = FALSE;
             break;
 
-        case 'M':   /* set multiplicity
+        case 'M':   // set multiplicity
 	    if (minus)
 	    {
 	        multiplicity = 1;
@@ -2139,18 +2033,18 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'k':   /* set invarlev fields of options
+        case 'k':   // set invarlev fields of options
             options_mininvarlevel = getint_sl(INFILE);
             options_maxinvarlevel = getint_sl(INFILE);
             minus = FALSE;
             break;
 
-        case 'K':   /* set invararg field of options
+        case 'K':   // set invararg field of options
             options_invararg = getint_sl(INFILE);
             minus = FALSE;
             break;
 
-        case '*':   /* set invarproc field of options
+        case '*':   // set invarproc field of options
             minus = FALSE;
             d = getint_sl(INFILE);
             if (d >= -1 && d <= NUMINVARS-2)
@@ -2170,17 +2064,17 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'a':   /* set writeautoms option
+        case 'a':   // set writeautoms option
             options_writeautoms = !minus;
             minus = FALSE;
             break;
 
-        case 'm':   /* set writemarkers option
+        case 'm':   // set writemarkers option
             options_writemarkers = !minus;
             minus = FALSE;
             break;
 
-        case 'V':   /* set verbosity for Traces
+        case 'V':   // set verbosity for Traces
 	    if (minus)
 	    {
 		options_verbosity = 0;
@@ -2199,7 +2093,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'S':   /* set strategy for Traces
+        case 'S':   // set strategy for Traces
 	    if (minus)
 	    {
 		options_strategy = 0;
@@ -2210,7 +2104,7 @@ main(int argc, char *argv[])
                 i = getint_sl(INFILE);
 		if (i != 0) fprintf(ERRFILE,
                       "Only strategy 0 is supported in this version\n");
-/*
+
                 if (i < 0)
 		{
 		    fprintf(ERRFILE,"strategy must be >= 0\n");
@@ -2222,7 +2116,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'G':   /* set schreier option
+        case 'G':   // set schreier option
 	    if (minus)
 	    {
 		options_schreier = 0;
@@ -2244,18 +2138,18 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case 'p':   /* set cartesian option
+        case 'p':   // set cartesian option
             options_cartesian = !minus;
             minus = FALSE;
             break;
 
-        case 'd':   /* set digraph option
+        case 'd':   // set digraph option
             if (options_digraph && minus) gvalid = gvalid_sg = FALSE;
             options_digraph = !minus;
             minus = FALSE;
             break;
 
-        case 'P':   /* set keep-group option
+        case 'P':   //set keep-group option
             if (minus && options_keepgroup)
 	    {
 		options_keepgroup = FALSE;
@@ -2280,7 +2174,7 @@ main(int argc, char *argv[])
             minus = FALSE;
             break;
 
-        case '$':   /* set label origin
+        case '$':   //set label origin
             if ((d = getc(INFILE)) == '$')
                 labelorg = oldorg;
             else
@@ -2298,7 +2192,7 @@ main(int argc, char *argv[])
             }
             break;
 
-        case '?':   /* type options, etc.
+        case '?':   // type options, etc.
             minus = FALSE;
 	    fprintf(outfile,"Mode=%s ",
 		(mode==DENSE_MODE?"dense":
@@ -2368,7 +2262,7 @@ main(int argc, char *argv[])
 	    }
             break;
 
-        case '&':   /* list the partition and possibly the quotient
+        case '&':   // list the partition and possibly the quotient
             if ((d = getc(INFILE)) == '&')
                 doquot = TRUE;
             else
@@ -2391,30 +2285,30 @@ main(int argc, char *argv[])
             }
             break;
 
-        case 'h':   /* type help information
+        case 'h':   // type help information
         case 'H':
             minus = FALSE;
             help(PROMPTFILE,c == 'H');
             break;
 
-        default:    /* illegal command
+        default:    // illegal command
             fprintf(ERRFILE,"'%c' is illegal - type 'h' for help\n",c);
 	    FLUSHANDPROMPT;
             break;
 
-        }  /* end of switch
+        }  // end of switch
 
         if (flushing) fflush(outfile);
     }
 
     exit(0);
 }
-*/
+
 /*****************************************************************************
 *                                                                            *
 *  help(f,i) writes help information to file f (i = 0,1).                    *
 *                                                                            *
-*****************************************************************************/
+*****************************************************************************
 
 static void
 help(FILE *f, int i)
@@ -2477,7 +2371,7 @@ H("Accurate times: M=#/# set number of runs and minimum total cpu.")
 *  usernode(g,lab,ptn,level,numcells,tc,code,m,n) is a simple version of the *
 *  procedure named by options.usernodeproc.                                  *
 *                                                                            *
-*****************************************************************************/
+*****************************************************************************
 
 static void
 usernode(graph *g, int *lab, int *ptn, int level, int numcells,
@@ -2501,7 +2395,7 @@ usernode(graph *g, int *lab, int *ptn, int level, int numcells,
 *  userautom(count,perm,orbits,numorbits,stabvertex,n) is a simple           *
 *  version of the procedure named by options.userautomproc.                  *
 *                                                                            *
-*****************************************************************************/
+*****************************************************************************
 
 static void
 userautom(int count, int *perm, int *orbits,
@@ -2518,7 +2412,7 @@ userautom(int count, int *perm, int *orbits,
 *  userlevel(lab,ptn,level,orbits,stats,tv,index,tcellsize,numcells,cc,n)    *
 *  is a simple version of the procedure named by options.userlevelproc.      *
 *                                                                            *
-*****************************************************************************/
+*****************************************************************************
 
 static void
 userlevel(int *lab, int *ptn, int level, int *orbits, statsblk *stats,
@@ -2536,7 +2430,7 @@ userlevel(int *lab, int *ptn, int level, int *orbits, statsblk *stats,
 *  usercanon(g,lab,canong,count,code,m,n)                                    *
 *  is a simple version of the procedure named by options.userlevelproc.      *
 *                                                                            *
-*****************************************************************************/
+*****************************************************************************
 
 static int
 usercanon(graph *g, int *lab, graph *canong, int count, int code,
@@ -2546,3 +2440,4 @@ usercanon(graph *g, int *lab, graph *canong, int count, int code,
 	"**usercanonproc: count=%d code=%d\n",count,code);
     return 0;
 }
+*/

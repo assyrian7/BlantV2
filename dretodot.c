@@ -71,7 +71,7 @@ typedef struct list {
 struct list *NewListelem(int el)
 {
 	struct list *L;
-	
+
     L = malloc(sizeof(list));
     if (L == NULL) {
         fprintf(ERRFILE, "\nError, memory not allocated.\n");
@@ -103,14 +103,14 @@ DYNALLSTAT(int, Ranks, Ranks_sz);
 DYNALLSTAT(int, orbits, orbits_sz);
 #endif
 
-DEFAULTOPTIONS_TRACES(traces_opts);
+//DEFAULTOPTIONS_TRACES(traces_opts);
 TracesStats traces_stats;
 
 void CreateRandColors(int n)
 {
 	int i=0, ind0, ind1, ind2;
     char aux[6];
-    
+
     ran_init(n);
 	for (i = 0; i<n; i++)
 	{
@@ -118,7 +118,7 @@ void CreateRandColors(int n)
 		strcpy(aux, "\0");
 
         ind1 = KRAN(4096);
-        
+
 	    NShape[i].labcol=(ind1/128) % 2;
 	    for (ind0 = 0; ind0<3; ind0++)
 		{
@@ -214,7 +214,7 @@ void CreateRandColors(int n)
 double ComputeFontsize(int vtx) {
     int ndigits;
     double fsize;
-    
+
     if (vtx == 0) {
         fsize = 13.0;
     }
@@ -268,9 +268,9 @@ main(int argc, char *argv[])
     sparsegraph g, g1;
     list *liststart, *listend;
     int nodescale, distance, StInd, StIndDist, RnkInd, RnkIndDist;
-    
+
 	HELP; PUTVERSION;
-    
+
     liststart = listend = NULL;
 	rswitch = dswitch = mswitch = nswitch = oswitch = iswitch = xswitch = Sswitch = gswitch = fswitch = vswitch = rswitch1 = Vswitch = Eswitch = FALSE;
 	infilename = outfilename = drefilename = NULL;
@@ -281,12 +281,12 @@ main(int argc, char *argv[])
 	n = -1;
     nodescale = 1;
     distance = 0;
-    
+
 	argnum = 0;
 	badargs = make_ranks = FALSE;
     MaxV = 1000;
     MaxE = 5000;
-    
+
 	for (j = 1; !badargs && j < argc; ++j)
 	{
 	    arg = argv[j];
@@ -334,16 +334,16 @@ main(int argc, char *argv[])
             else                  badargs = TRUE;
 	    }
 	}
-    
+
 	if (labelorg < 0) gt_abort(">E dretodot: negative origin forbidden\n");
-    
+
 	if (badargs || argnum > 3)
 	{
 	    fprintf(stderr, ">E Usage: %s\n", USAGE);
 	    GETHELP;
 	    exit(1);
 	}
-    
+
 	if (!infilename || infilename[0] == '-')
 	{
 	    infilename = "stdin";
@@ -354,7 +354,7 @@ main(int argc, char *argv[])
 	    fprintf(stderr, "Can't open input file %s\n", infilename);
 	    gt_abort(NULL);
 	}
-    
+
 	if (!outfilename || outfilename[0] == '-')
 	{
 	    outfilename = "stdout";
@@ -368,7 +368,7 @@ main(int argc, char *argv[])
 
 	labelorg = initorg;
 	nin = 0;
-    
+
 	while (fscanf(infile, "%1s", s) == 1)
 	{
 	    if (s[0] == 'n')
@@ -421,7 +421,7 @@ main(int argc, char *argv[])
             DYNALLOC2(NodeShape, NShape, NShape_sz, n, m, "dretodot");
             DYNALLOC2(int, orbits, orbits_sz, n, m, "dretodot");
 #endif
-            
+
             for (i=0; i<n; i++) {
                 lab[i] = i;
                 ptn[i] = 1;
@@ -447,7 +447,7 @@ main(int argc, char *argv[])
 	}
 
     fclose(infile);
-    
+
     if ((nodescale != 0) && (nodescale != 1) && (nodescale != 2)) {
         nodescale = 1;
     }
@@ -462,16 +462,16 @@ main(int argc, char *argv[])
 	    fprintf(stderr, "Can't open output file %s\n", drefilename);
 	    gt_abort(NULL);
 	}
-    
+
     if (!dswitch) distance = n;
-    
+
     if (iswitch && !xswitch && !fswitch) {
         if (vswitch) fprintf(stderr, ">Z  partition refinement...");
         refine_tr(&g,lab,ptn,&numcells,&refcode,&traces_opts);
         if (vswitch) fprintf(stderr, "done.\n");
         WRITEDREFILE
     }
-    
+
     if (fswitch) {
         indivtx -= labelorg;
         refine_tr(&g,lab,ptn,&numcells,&refcode,&traces_opts);
@@ -490,7 +490,7 @@ main(int argc, char *argv[])
         refine_tr(&g,lab,ptn,&numcells,&refcode,&traces_opts);
         if (!xswitch) WRITEDREFILE
     }
-    
+
     if (xswitch) {
         if (vswitch) fprintf(stderr, ">Z  running Traces...");
         Traces(&g,lab,ptn,orbits,&traces_opts,&traces_stats,&g1);
@@ -502,7 +502,7 @@ main(int argc, char *argv[])
         sort2ints(orbits,lab,n);
         memcpy(ptn,orbits,n*sizeof(int));
     }
-    
+
     strcpy(model, "\0");
     switch (modcode) {
         case 1:
@@ -526,9 +526,9 @@ main(int argc, char *argv[])
             break;
     }
     fprintf(outfile, "graph G\n{\n");
-    
+
     if (vswitch) fprintf(stderr, ">Z  selected drawing model \"%s\".\n",model);
-    
+
 #if !MAXN
     DYNALLOC2(int, CurrVertices, CurrVertices_sz, n, m, "dretodot");
     DYNALLOC2(int, DistStack, DistStack_sz, n, m, "dretodot");
@@ -557,7 +557,7 @@ main(int argc, char *argv[])
             listend = listend->next;
         }
     }
-    
+
     if (vswitch) fprintf(stderr, ", 2");
 
     cell = 0;
@@ -616,7 +616,7 @@ main(int argc, char *argv[])
             }
         }
     }
-    
+
     too_big = FALSE;
     if (n_count > MaxV) {
         fprintf(stderr, ">E Too many vertices (%d, max: %d; use -V# (at your own risk))\n", n_count, MaxV);
@@ -626,7 +626,7 @@ main(int argc, char *argv[])
         fprintf(stderr, ">E Too many edges (%lu, max: %d; use -E# (at your own risk))\n", e_count, MaxE);
         too_big = TRUE;
     }
-    
+
     if (too_big) {
         exit(1);
     }
@@ -649,18 +649,18 @@ main(int argc, char *argv[])
     if (vswitch) fprintf(stderr, ">Z  creating colors...");
     CreateRandColors(n);
     if (vswitch) fprintf(stderr, "done\n");
-    
+
     if (vswitch) fprintf(stderr, ">Z  drawing size %.2f x %.2f\n", hsize, vsize);
-    
-    /* Preamble 
+
+    /* Preamble
 	fprintf(outfile, "graph [center=\"true\", size=\"%.2f, %.2f\", ratio=\"fill\", ranksep=\"0.25\", nodesep=\"0.40\",\n", hsize, vsize);
     fprintf(outfile, "       outputorder=\"edgesfirst\", overlap=\"scale\", layout=\"%s\"];\n",model);
 	fprintf(outfile, "node  [shape=\"circle\", width=\"%.2f\", height=\"%.2f\", fixedsize=\"true\",\n",
             0.5*nodescale, 0.5*nodescale);
     fprintf(outfile, "       style=\"filled\", color=\"black\",\n");
     fprintf(outfile, "       fontsize=\"13\", fontname=\"%s\"];\n", FONT_NAME);
-    
-    /* Nodes 
+
+    /* Nodes
     if (vswitch) fprintf(stderr, ">Z  drawing vertices...");
 
     fprintf(outfile, "node  [color=\"black\", fontcolor=\"black\"]\n");
@@ -695,7 +695,7 @@ main(int argc, char *argv[])
         }
     }
     if (make_ranks) fprintf(outfile, "}\n");
-    
+
     if (gswitch) {
         fprintf(outfile, "node  [fontsize=\"%.2f\", fontcolor=\"gray\", color=\"gray\", fillcolor=\"gray97\"]\n", fsize);
         for (i=0; i<n; i++) {
@@ -708,7 +708,7 @@ main(int argc, char *argv[])
 
     if (vswitch) fprintf(stderr, "done\n");
 
-    /* Edges 
+    /* Edges
     if (vswitch) fprintf(stderr, ">Z  drawing edges...");
 
     if (gswitch) {
@@ -733,7 +733,7 @@ main(int argc, char *argv[])
             }
         }
     }
-    
+
     if (gswitch) {
         RnkIndDist = RnkInd;
     }

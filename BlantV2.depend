@@ -400,3 +400,402 @@
 	<limits.h>
 	<string.h>
 
+1538936021 source:/home/paul/Desktop/BlantV2/addedgeg.c
+	"gtools.h"
+	"gutils.h"
+
+1538936021 /home/paul/Desktop/BlantV2/gtools.h
+	"naututil.h"
+	"nausparse.h"
+	<errno.h>
+	<sys/wait.h>
+	<signal.h>
+
+1538936021 /home/paul/Desktop/BlantV2/naututil.h
+	"nauty.h"
+	"nausparse.h"
+	"naurng.h"
+	"weird.h"
+	<sys/times.h>
+	<time.h>
+	<sys/time.h>
+	<sys/resource.h>
+	<sys/time.h>
+	<time.h>
+
+1538936021 /home/paul/Desktop/BlantV2/nauty.h
+	"defs.h"
+	"system.h"
+	"bs.h"
+	<stdio.h>
+	<sys/types.h>
+	<unistd.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<strings.h>
+	<nmmintrin.h>
+	<malloc.h>
+
+1538936021 /home/paul/Desktop/BlantV2/nausparse.h
+	"nauty.h"
+
+1538936021 /home/paul/Desktop/BlantV2/naurng.h
+	"nauty.h"
+
+1538936021 /home/paul/Desktop/BlantV2/gutils.h
+
+1538936021 source:/home/paul/Desktop/BlantV2/amtog.c
+	"gtools.h"
+	<ctype.h>
+
+1538959847 source:/home/paul/Desktop/BlantV2/binaryutil.c
+	"binaryutil.h"
+
+1538936021 /home/paul/Desktop/BlantV2/binaryutil.h
+	"math.h"
+	"stdlib.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/biplabg.c
+	"gtools.h"
+	"gutils.h"
+
+1538956759 source:/home/paul/Desktop/BlantV2/blantv2.c
+	"gtools.h"
+	"nautinv.h"
+	"schreier.h"
+	"traces.h"
+	"sorttemplates.c"
+
+1538936021 /home/paul/Desktop/BlantV2/nautinv.h
+	"nauty.h"
+
+1538936021 /home/paul/Desktop/BlantV2/schreier.h
+	"nauty.h"
+	"naurng.h"
+
+1538936021 /home/paul/Desktop/BlantV2/traces.h
+	"gtools.h"
+	"schreier.h"
+
+1538936021 /home/paul/Desktop/BlantV2/sorttemplates.c
+
+1538936021 source:/home/paul/Desktop/BlantV2/bliss2dre.c
+	<stdio.h>
+	<stdlib.h>
+
+1538936021 source:/home/paul/Desktop/BlantV2/blisstog.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/callgeng.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/catg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/checks6.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/complg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/converseg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/copyg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/cubhamg.c
+	"gtools.h"
+	"naurng.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/deledgeg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/delptg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/directg.c
+	"gtools.h"
+	"naugroup.h"
+
+1538936021 /home/paul/Desktop/BlantV2/naugroup.h
+	"nauty.h"
+
+1538951006 source:/home/paul/Desktop/BlantV2/dreadnaut.c
+	"gtools.h"
+	"nautinv.h"
+	"schreier.h"
+	"traces.h"
+	"sorttemplates.c"
+
+1538936121 source:/home/paul/Desktop/BlantV2/dretodot.c
+	<math.h>
+	"gtools.h"
+	"traces.h"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/dretog.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/genbg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/geng.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/genquarticg.c
+	"gtools.h"
+	"quarticirred28.h"
+
+1538936021 /home/paul/Desktop/BlantV2/quarticirred28.h
+
+1538936021 source:/home/paul/Desktop/BlantV2/genrang.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/genspecialg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gentourng.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gentreeg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gtnauty.c
+	"gtools.h"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gtools.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gutil1.c
+	"gtools.h"
+	"gutils.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/gutil2.c
+	"gtools.h"
+	"gutils.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/hamheuristic.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/labelg.c
+	"gtools.h"
+	"nautinv.h"
+	"gutils.h"
+	"traces.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/linegraphg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/listg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/main.c
+	<stdio.h>
+	<stdlib.h>
+
+1538936021 source:/home/paul/Desktop/BlantV2/multig.c
+	"gtools.h"
+	"naugroup.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/naucompare.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1538936021 source:/home/paul/Desktop/BlantV2/naugraph.c
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/naugroup.c
+	"naugroup.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/naugstrings.c
+	"naugstrings.h"
+
+1538936021 /home/paul/Desktop/BlantV2/naugstrings.h
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/naurng.c
+	"naurng.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nausparse.c
+	"nausparse.h"
+	"sorttemplates.c"
+	"sorttemplates.c"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautaux.c
+	"naututil.h"
+	"nautaux.h"
+
+1538936021 /home/paul/Desktop/BlantV2/nautaux.h
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautest.c
+	"naututil.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nauthread1.c
+	<pthread.h>
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nauthread2.c
+	<pthread.h>
+	"nauty.h"
+	"nausparse.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautil.c
+	"nauty.h"
+	"io.e"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautinv.c
+	"nautinv.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/naututil.c
+	"naututil.h"
+	"nausparse.h"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nauty.c
+	"nauty.h"
+	"schreier.h"
+	"cleanup.e"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex1.c
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex10.c
+	"traces.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex2.c
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex3.c
+	"nauty.h"
+	"naugroup.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex4.c
+	"nausparse.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex5.c
+	"nausparse.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex6.c
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex7.c
+	"traces.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex8.c
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/nautyex9.c
+	"traces.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/newedgeg.c
+	"gtools.h"
+	"gutils.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/NRswitchg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/planarg.c
+	"gtools.h"
+	"planarity.h"
+
+1538936021 /home/paul/Desktop/BlantV2/planarity.h
+	"defs.h"
+	"system.h"
+	<stdio.h>
+	<assert.h>
+	<stdlib.h>
+	<time.h>
+	"naututil.h"
+	"nauty.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/planarity.c
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+	"planarity.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/poptest.c
+	"gtools.h"
+	<nmmintrin.h>
+
+1538936021 source:/home/paul/Desktop/BlantV2/ranlabg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/rng.c
+
+1538936021 source:/home/paul/Desktop/BlantV2/schreier.c
+	"schreier.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/shortg.c
+	"gtools.h"
+	"nautinv.h"
+	"gutils.h"
+	"traces.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/showg.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stddef.h>
+	<stdlib.h>
+	<sys/types.h>
+
+1538936021 source:/home/paul/Desktop/BlantV2/sorttemplates.c
+
+1538936021 source:/home/paul/Desktop/BlantV2/subdivideg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/testg.c
+	"gtools.h"
+	"gutils.h"
+	"nautinv.h"
+	"splay.c"
+
+1538936021 /home/paul/Desktop/BlantV2/splay.c
+
+1538936021 source:/home/paul/Desktop/BlantV2/traces.c
+	"traces.h"
+	"cleanup.e"
+	"sorttemplates.c"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/twohamg.c
+	"gtools.h"
+
+1538936021 source:/home/paul/Desktop/BlantV2/vcolg.c
+	"gtools.h"
+	"naugroup.h"
+	"sorttemplates.c"
+
+1538936021 source:/home/paul/Desktop/BlantV2/watercluster2.c
+	"nauty.h"
+	<limits.h>
+	<string.h>
+

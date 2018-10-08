@@ -1,12 +1,10 @@
 //This file takes snippets of nauty to brute force
 //a Traces canonical operation on two customly created graphs
 
-#include "gtools.h"    /* which includes nauty.h, which includes stdio.h */
+#include "gtools.h"    // which includes nauty.h, which includes stdio.h
 #include "nautinv.h"
-#include "nauty.h"
 #include "schreier.h"
 #include "traces.h"
-#include "binaryutil.h"
 
 #define USAGE "dreadnaut [-o options]"
 
@@ -25,8 +23,11 @@
 #define WORKSIZE 60
 #define FLUSHANDPROMPT do { flushline(INFILE); if (prompt) fprintf(PROMPTFILE,"> "); } while (0)
 
-
-#include "sorttemplates.c"   /* define sort2ints(a,b,n) */
+#define SORT_OF_SORT 2
+#define SORT_NAME sort2ints
+#define SORT_TYPE1 int
+#define SORT_TYPE2 int
+#include "sorttemplates.c"   // define sort2ints(a,b,n)
 
 #define INFILE fileptr[curfile]
 #define SCHREIER_DEFAULT 10
@@ -75,7 +76,7 @@ static int curfile;
 static FILE *fileptr[MAXIFILES];
 static FILE *outfile;
 static char def_ext[] = DEFEXT;
-static boolean firstpath;       /* used in usernode() */
+static boolean firstpath;       // used in usernode()
 
 DEFAULTOPTIONS_TRACES(traces_opts);
 static TracesStats traces_stats;
@@ -95,10 +96,10 @@ static TracesStats traces_stats;
 
 static int mode;
 
-#define U_NODE  1               /* masks for u values */
+#define U_NODE  1               // masks for u values
 #define U_AUTOM 2
 #define U_LEVEL 4
-#define U_TCELL 8     /* At version 2.4, usertcellproc() is gone */
+#define U_TCELL 8     // At version 2.4, usertcellproc() is gone
 #define U_REF  16
 #define U_CANON 32
 
@@ -209,11 +210,11 @@ EXTRADECLS
 *                                                                            *
 *  Routines for catching SIGINT                                              *
 *                                                                            *
-*****************************************************************************/
+****************************************************************************/
 
 void
 sigintcatcher(int sig)
-/* This is the routine called on SIGINT receipt. */
+//This is the routine called on SIGINT receipt.
 {
     struct sigaction ss;
 
@@ -224,8 +225,50 @@ sigintcatcher(int sig)
     sigaction(SIGINT,&ss,0);
 }
 
+
+static void
+setsigcatcher(void)
+{
+    struct sigaction ss;
+
+    nauty_kill_request = 0;
+    ss.sa_handler = sigintcatcher;
+    sigemptyset(&ss.sa_mask);
+    ss.sa_flags = 0;
+    sigaction(SIGINT,&ss,0);
+}
+
+
+static void
+unsetsigcatcher(void)
+{
+    struct sigaction ss;
+
+    nauty_kill_request = 0;
+    ss.sa_handler = SIG_DFL;
+    sigemptyset(&ss.sa_mask);
+    ss.sa_flags = 0;
+    sigaction(SIGINT,&ss,0);
+}
+
+#else
+static void
+setsigcatcher(void)
+{
+}
+
+static void
+unsetsigcatcher(void)
+{
+}
 #endif
+
+
 int main(){
+/*
+printf("Hello from start\n");
+printf("Hello there");
+
 int m,n,newm,newn;
 boolean gvalid,ovalid,cvalid,pvalid,minus,prompt,doquot;
 boolean gvalid_sg,cvalid_sg;
@@ -247,13 +290,14 @@ permnode *generators;
 char *ap,*parameters;
 boolean flushing;
 
+
     options_writeautoms = options_writemarkers = TRUE;
     options_digraph = FALSE;
     options_getcanon = options.getcanon;
     options_mininvarlevel = options.mininvarlevel;
     options_maxinvarlevel = options.maxinvarlevel;
     options_invararg = options.invararg;
-    options_invarproc = 1; /* index into invarproc[] */
+    options_invarproc = 1; // index into invarproc[]
     options_tc_level = options.tc_level;
     options_cartesian = options.cartesian;
     options_linelength = options.linelength;
@@ -290,8 +334,8 @@ boolean flushing;
     umask = 0;
     pvalid = FALSE;
     ovalid = FALSE;
-    gvalid = gvalid_sg = FALSE;  /* at most one valid */
-    cvalid = cvalid_sg = FALSE;  /* at most one valid */
+    gvalid = gvalid_sg = FALSE;  // at most one valid
+    cvalid = cvalid_sg = FALSE;  // at most one valid
     sgorg = labelorg = oldorg = 0;
     sgn = 0;
     multiplicity = 1;
@@ -324,8 +368,9 @@ minus = FALSE;
 DYNALLOC2(graph,g,g_sz,n,m,"dreadnaut");
 
 #endif
-readgraph(INFILE,g,options_digraph,prompt,FALSE,
-          options_linelength,m,n);
+
+//readgraph(INFILE,g,options_digraph,prompt,FALSE,
+//          options_linelength,m,n);
 
 gvalid = TRUE;
 cvalid = FALSE;
@@ -335,11 +380,14 @@ ovalid = FALSE;
 
 int number = 4;
 int numNodes = 3;
+
+printf("Hello there");
+
 /***********************************************************
 case 'n'
-***********************************************************/
+**********************************************************
 minus = FALSE;
-i = numNodes;/**Some int we read either from user or from argv**/
+i = numNodes;//Some int we read either from user or from argv*
 
 gvalid = FALSE;
 cvalid = FALSE;
@@ -360,7 +408,7 @@ DYNALLOC1(set,active,active_sz,m,"dreadnaut");
 
 /***********************************************************
 case 'g'
-***********************************************************/
+**********************************************************
 minus = FALSE;
 if (SPARSEREP(mode))
 {
@@ -369,21 +417,29 @@ if (SPARSEREP(mode))
     gvalid_sg = TRUE;
     cvalid_sg = FALSE;
 }
+
 else
 {
 #if !MAXN
 DYNALLOC2(graph,g,g_sz,n,m,"dreadnaut");
 #endif
-readgraph(INFILE,g,options_digraph,prompt,FALSE,
-          options_linelength,m,n);
+//readgraph(INFILE,g,options_digraph,prompt,FALSE,
+ //         options_linelength,m,n);
 gvalid = TRUE;
 cvalid = FALSE;
 }
 ovalid = FALSE;
 
+g_sg.e = (int*)malloc(2 * numNodes * sizeof(int));
 int *edge = g_sg.e;
-
-int *mat = numToLowMat(number, numNodes);
+*/
+int *mat = numToLowMat(4, 3);
+printf("%d\n", mat[0]);
+/*
+for(int i = 0; i < numNodes * numNodes; i++){
+    printf("%d, ", *mat);
+}
+/*
 for(int row = 0; row < numNodes; row++){
     for(int col = 0; col < numNodes; col++){
         if(row == col) continue;
@@ -393,10 +449,10 @@ for(int row = 0; row < numNodes; row++){
         }
     }
 }
-
+/*
 /***********************************************************
 case 'x'
-***********************************************************/
+**********************************************************
 
 minus = FALSE;
             if (mode == TRACES_MODE)
@@ -463,7 +519,7 @@ minus = FALSE;
                 timebefore = CPUTIME;
 #endif
 		actmult = 0;
-                //setsigcatcher();
+                setsigcatcher();
                 for (;;)
                 {
                     traces_opts.defaultptn = !pvalid;
@@ -565,7 +621,7 @@ minus = FALSE;
 		    options.invararg = options_invararg;
 		    if (options_schreier > 0)
 			schreier_fails(options_schreier);
-/*
+
                     if (umask & U_NODE)  options.usernodeproc = NODEPROC;
                     else                 options.usernodeproc = NULL;
                     if (umask & U_AUTOM) options.userautomproc = AUTOMPROC;
@@ -576,7 +632,7 @@ minus = FALSE;
                     else                 options.userrefproc = NULL;
                     if (umask & U_CANON) options.usercanonproc = CANONPROC;
                     else                 options.usercanonproc = NULL;
-*/
+
 #if !MAXN
                     if (options_getcanon)
                         DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
@@ -590,7 +646,7 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    //setsigcatcher();
+		    setsigcatcher();
                     for (;;)
                     {
                         nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
@@ -640,7 +696,7 @@ minus = FALSE;
 		    if (options_schreier > 0)
 			schreier_fails(options_schreier);
 
-/*
+
                     if (umask & U_NODE)  options_sg.usernodeproc = NODEPROC;
                     else                 options_sg.usernodeproc = NULL;
                     if (umask & U_AUTOM) options_sg.userautomproc = AUTOMPROC;
@@ -651,7 +707,7 @@ minus = FALSE;
                     else                 options_sg.userrefproc = NULL;
                     if (umask & U_CANON) options_sg.usercanonproc = CANONPROC;
                     else                 options_sg.usercanonproc = NULL;
-*/
+
 #if !MAXN
                     DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
 								"dreadnaut");
@@ -664,7 +720,7 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    //setsigcatcher();
+		    setsigcatcher();
                     for (;;)
                     {
                         nauty((graph*)&g_sg,lab,ptn,NULL,orbits,&options_sg,
@@ -717,7 +773,7 @@ minus = FALSE;
                         fprintf(outfile," (%lu bad lea%s)",
                             SS(stats.numbadleaves,"f","ves"));
                     fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    /* fprintf(outfile,"tctotal=%lu",stats.tctotal); */
+                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
                     if (options_getcanon)
                         fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
 #ifdef  CPUTIME
@@ -757,7 +813,7 @@ minus = FALSE;
 
 /***********************************************************
 case '@'
-***********************************************************/
+**********************************************************
 
             minus = FALSE;
             if (cvalid)
@@ -800,12 +856,12 @@ case '@'
 
 /***********************************************************
 case 'n'
-***********************************************************/
+**********************************************************
 number = 1;
 numNodes = 3;
 
 minus = FALSE;
-i = numNodes;/**Some int we read either from user or from argv**/
+i = numNodes;//Some int we read either from user or from argv*
 
 gvalid = FALSE;
 cvalid = FALSE;
@@ -826,7 +882,7 @@ DYNALLOC1(set,active,active_sz,m,"dreadnaut");
 
 /***********************************************************
 case 'g'
-***********************************************************/
+**********************************************************
 minus = FALSE;
 if (SPARSEREP(mode))
 {
@@ -862,7 +918,7 @@ for(int row = 0; row < numNodes; row++){
 
 /***********************************************************
 case 'x'
-***********************************************************/
+**********************************************************
 
 minus = FALSE;
             if (mode == TRACES_MODE)
@@ -929,7 +985,7 @@ minus = FALSE;
                 timebefore = CPUTIME;
 #endif
 		actmult = 0;
-                //setsigcatcher();
+                setsigcatcher();
                 for (;;)
                 {
                     traces_opts.defaultptn = !pvalid;
@@ -946,6 +1002,7 @@ minus = FALSE;
 			break;
 #endif
                 }
+                unsetsigcatcher();
 
 #ifdef  CPUTIME
                 timeafter = CPUTIME;
@@ -1032,7 +1089,7 @@ minus = FALSE;
 		    options.invararg = options_invararg;
 		    if (options_schreier > 0)
 			schreier_fails(options_schreier);
-/*
+
                     if (umask & U_NODE)  options.usernodeproc = NODEPROC;
                     else                 options.usernodeproc = NULL;
                     if (umask & U_AUTOM) options.userautomproc = AUTOMPROC;
@@ -1043,7 +1100,7 @@ minus = FALSE;
                     else                 options.userrefproc = NULL;
                     if (umask & U_CANON) options.usercanonproc = CANONPROC;
                     else                 options.usercanonproc = NULL;
-*/
+
 #if !MAXN
                     if (options_getcanon)
                         DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
@@ -1057,7 +1114,7 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    //setsigcatcher();
+		    setsigcatcher();
                     for (;;)
                     {
                         nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
@@ -1074,7 +1131,7 @@ minus = FALSE;
 			    break;
 #endif
                     }
-
+                    unsetsigcatcher();
 #ifdef  CPUTIME
                     timeafter = CPUTIME;
 #endif
@@ -1107,7 +1164,7 @@ minus = FALSE;
 		    if (options_schreier > 0)
 			schreier_fails(options_schreier);
 
-/*
+
                     if (umask & U_NODE)  options_sg.usernodeproc = NODEPROC;
                     else                 options_sg.usernodeproc = NULL;
                     if (umask & U_AUTOM) options_sg.userautomproc = AUTOMPROC;
@@ -1118,7 +1175,7 @@ minus = FALSE;
                     else                 options_sg.userrefproc = NULL;
                     if (umask & U_CANON) options_sg.usercanonproc = CANONPROC;
                     else                 options_sg.usercanonproc = NULL;
-8/
+
 #if !MAXN
                     DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
 								"dreadnaut");
@@ -1184,7 +1241,7 @@ minus = FALSE;
                         fprintf(outfile," (%lu bad lea%s)",
                             SS(stats.numbadleaves,"f","ves"));
                     fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    /* fprintf(outfile,"tctotal=%lu",stats.tctotal); */
+                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
                     if (options_getcanon)
                         fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
 #ifdef  CPUTIME
@@ -1224,7 +1281,7 @@ minus = FALSE;
 
 /***********************************************************
 case '##'
-***********************************************************/
+**********************************************************
 
 if (cvalid || cvalid_sg)
             {
@@ -1274,5 +1331,69 @@ if (cvalid || cvalid_sg)
                 fprintf(ERRFILE,"h is not defined\n");
 		FLUSHANDPROMPT;
 	    }
+    */
     return 0;
 }
+
+static void
+usernode(graph *g, int *lab, int *ptn, int level, int numcells,
+     int tc, int code, int m, int n)
+{
+    int i;
+
+    for (i = 0; i < level; ++i) PUTC('.',outfile);
+    if (numcells == n)
+        fprintf(outfile,"(n/%d)\n",code);
+    else if (tc < 0)
+        fprintf(outfile,"(%d/%d)\n",numcells,code);
+    else
+        fprintf(outfile,"(%d/%d/%d)\n",numcells,code,tc);
+    if (firstpath) putptn(outfile,lab,ptn,level,options_linelength,n);
+    if (numcells == n) firstpath = FALSE;
+}
+
+static void
+userautom(int count, int *perm, int *orbits,
+      int numorbits, int stabvertex, int n)
+{
+    fprintf(outfile,
+         "**userautomproc:  count=%d stabvertex=%d numorbits=%d\n",
+         count,stabvertex+labelorg,numorbits);
+    PUTORBITS(outfile,orbits,options_linelength,n);
+}
+
+/*****************************************************************************
+*                                                                            *
+*  userlevel(lab,ptn,level,orbits,stats,tv,index,tcellsize,numcells,cc,n)    *
+*  is a simple version of the procedure named by options.userlevelproc.      *
+*                                                                            *
+*****************************************************************************/
+
+static void
+userlevel(int *lab, int *ptn, int level, int *orbits, statsblk *stats,
+      int tv, int index, int tcellsize, int numcells, int cc, int n)
+{
+    fprintf(outfile,
+        "**userlevelproc:  level=%d tv=%d index=%d tcellsize=%d cc=%d\n",
+        level,tv+labelorg,index,tcellsize,cc);
+    fprintf(outfile,"    nodes=%lu cells=%d orbits=%d generators=%d\n",
+        stats->numnodes,numcells,stats->numorbits,stats->numgenerators);
+}
+
+/*****************************************************************************
+*                                                                            *
+*  usercanon(g,lab,canong,count,code,m,n)                                    *
+*  is a simple version of the procedure named by options.userlevelproc.      *
+*                                                                            *
+*****************************************************************************/
+
+static int
+usercanon(graph *g, int *lab, graph *canong, int count, int code,
+            int m, int n)
+{
+    fprintf(outfile,
+	"**usercanonproc: count=%d code=%d\n",count,code);
+    return 0;
+}
+
+
