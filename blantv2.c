@@ -265,9 +265,6 @@ unsetsigcatcher(void)
 
 
 int main(){
-/*
-printf("Hello from start\n");
-printf("Hello there");
 
 int m,n,newm,newn;
 boolean gvalid,ovalid,cvalid,pvalid,minus,prompt,doquot;
@@ -381,11 +378,9 @@ ovalid = FALSE;
 int number = 4;
 int numNodes = 3;
 
-printf("Hello there");
-
 /***********************************************************
 case 'n'
-**********************************************************
+**********************************************************/
 minus = FALSE;
 i = numNodes;//Some int we read either from user or from argv*
 
@@ -408,7 +403,7 @@ DYNALLOC1(set,active,active_sz,m,"dreadnaut");
 
 /***********************************************************
 case 'g'
-**********************************************************
+**********************************************************/
 minus = FALSE;
 if (SPARSEREP(mode))
 {
@@ -430,29 +425,40 @@ cvalid = FALSE;
 }
 ovalid = FALSE;
 
-g_sg.e = (int*)malloc(2 * numNodes * sizeof(int));
+int edgeSize = 2 * (numNodes * (numNodes - 1) / 2);
+
+g_sg.e = (int*)malloc(edgeSize * sizeof(int));
 int *edge = g_sg.e;
-*/
-int *mat = numToLowMat(4, 3);
-printf("%d\n", mat[0]);
-/*
-for(int i = 0; i < numNodes * numNodes; i++){
-    printf("%d, ", *mat);
+for(int i = 0; i < edgeSize; i++){
+    edge[i] = 0;
 }
-/*
+
+int *mat = numToLowMat(number, numNodes);
+
+for(int i = 0; i < numNodes * numNodes; i++){
+    printf("%d\n", mat[i]);
+}
+printf("\n");
+
+int count = 0;
 for(int row = 0; row < numNodes; row++){
     for(int col = 0; col < numNodes; col++){
         if(row == col) continue;
         if(mat[numNodes * row + col] == 1){
-            *(edge++) = row;
-            *(edge++) = col;
+            printf("%d %d\n", row, col);
+            edge[count++] = row + 1;
+            edge[count++] = col + 1;
         }
     }
 }
-/*
+
+for(int i = 0; i < (2 * (numNodes * (numNodes - 1) / 2)); i++){
+    printf("%d\n", edge[i]);
+}
+
 /***********************************************************
 case 'x'
-**********************************************************
+**********************************************************/
 
 minus = FALSE;
             if (mode == TRACES_MODE)
@@ -719,6 +725,7 @@ minus = FALSE;
 #ifdef  CPUTIME
                     timebefore = CPUTIME;
 #endif
+
 		    actmult = 0;
 		    setsigcatcher();
                     for (;;)
@@ -762,6 +769,7 @@ minus = FALSE;
 			if (mode == DENSE_MODE) cvalid = TRUE;
 			else                    cvalid_sg = TRUE;
 		    }
+
                     ovalid = TRUE;
                     fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
 		    fprintf(outfile,"; grpsize=");
@@ -769,6 +777,7 @@ minus = FALSE;
                     fprintf(outfile,"; %d gen%s",
                             SS(stats.numgenerators,"","s"));
                     fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
+                    /*
                     if (stats.numbadleaves)
                         fprintf(outfile," (%lu bad lea%s)",
                             SS(stats.numbadleaves,"f","ves"));
@@ -784,6 +793,7 @@ minus = FALSE;
 #else
                     fprintf(outfile,"\n");
 #endif
+
 		    if (mode == DENSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint)
                     {
@@ -796,9 +806,11 @@ minus = FALSE;
                         else
                             fprintf(outfile,".\n");
                     }
+
 		    if (mode == SPARSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint_sg)
                     {
+
                         fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
                             invarproc[options_invarproc].name_sg,
 			    stats.invsuccesses,stats.invapplics);
@@ -808,9 +820,10 @@ minus = FALSE;
                         else
                             fprintf(outfile,".\n");
                     }
+
                 }
 	    }
-
+/*
 /***********************************************************
 case '@'
 **********************************************************
