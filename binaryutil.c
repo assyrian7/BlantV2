@@ -12,8 +12,8 @@ int* numToLowMat(int number, int numNodes){
             if((number & (1 << (bitlength - count - 1))) != 0){
                 mat[numNodes * i + j] = 1;
             }
+            count++;
         }
-        count++;
     }
     return mat;
 }

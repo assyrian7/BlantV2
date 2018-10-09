@@ -435,6 +435,7 @@ for(int i = 0; i < edgeSize; i++){
 
 int *mat = numToLowMat(number, numNodes);
 
+printf("Mat: \n");
 for(int i = 0; i < numNodes * numNodes; i++){
     printf("%d\n", mat[i]);
 }
@@ -452,10 +453,11 @@ for(int row = 0; row < numNodes; row++){
     }
 }
 
+printf("Edge: \n");
 for(int i = 0; i < (2 * (numNodes * (numNodes - 1) / 2)); i++){
     printf("%d\n", edge[i]);
 }
-
+printf("\n");
 /***********************************************************
 case 'x'
 **********************************************************/
@@ -752,6 +754,7 @@ minus = FALSE;
 
 		if (stats.errstatus)
 		{
+
 		    if (stats.errstatus == NAUABORTED)
 		        fprintf(ERRFILE,"nauty aborted\n");
 		    else if (stats.errstatus == NAUKILLED)
@@ -762,8 +765,11 @@ minus = FALSE;
                            stats.errstatus);
 		    cvalid = cvalid_sg = ovalid = FALSE;
 		}
+
                 else
                 {
+
+
                     if (options_getcanon)
 		    {
 			if (mode == DENSE_MODE) cvalid = TRUE;
@@ -771,20 +777,21 @@ minus = FALSE;
 		    }
 
                     ovalid = TRUE;
-                    fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
-		    fprintf(outfile,"; grpsize=");
-		    writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
-                    fprintf(outfile,"; %d gen%s",
-                            SS(stats.numgenerators,"","s"));
-                    fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
-                    /*
+                    //fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
+		    //fprintf(outfile,"; grpsize=");
+		    //writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
+                    //fprintf(outfile,"; %d gen%s",
+                    //        SS(stats.numgenerators,"","s"));
+                    //fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
+
                     if (stats.numbadleaves)
-                        fprintf(outfile," (%lu bad lea%s)",
-                            SS(stats.numbadleaves,"f","ves"));
-                    fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
+                        //fprintf(outfile," (%lu bad lea%s)",
+                            //SS(stats.numbadleaves,"f","ves"));
+                    //fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
+                    //fprintf(outfile,"tctotal=%lu",stats.tctotal);
                     if (options_getcanon)
-                        fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
+                        //fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
+
 #ifdef  CPUTIME
                     fprintf(outfile,actmult == 1 ?
                               "cpu time = %.2f seconds\n" :
@@ -797,23 +804,26 @@ minus = FALSE;
 		    if (mode == DENSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint)
                     {
-                        fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
-                            invarproc[options_invarproc].name,
-			    stats.invsuccesses,stats.invapplics);
+
+                        //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
+                            //invarproc[options_invarproc].name,
+			    //stats.invsuccesses,stats.invapplics);
                         if (stats.invarsuclevel > 0)
                             fprintf(outfile," beginning at level %d.\n",
                                     stats.invarsuclevel);
                         else
                             fprintf(outfile,".\n");
+
                     }
 
 		    if (mode == SPARSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint_sg)
                     {
 
-                        fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
-                            invarproc[options_invarproc].name_sg,
-			    stats.invsuccesses,stats.invapplics);
+
+                        //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
+                           // invarproc[options_invarproc].name_sg,
+			    //stats.invsuccesses,stats.invapplics);
                         if (stats.invarsuclevel > 0)
                             fprintf(outfile," beginning at level %d.\n",
                                     stats.invarsuclevel);
@@ -822,13 +832,15 @@ minus = FALSE;
                     }
 
                 }
+
 	    }
-/*
+
 /***********************************************************
 case '@'
-**********************************************************
+**********************************************************/
 
             minus = FALSE;
+
             if (cvalid)
             {
 #if !MAXN
@@ -836,6 +848,7 @@ case '@'
                 DYNALLOC1(int,savedlab,savedlab_sz,n,"dreadnaut");
                 DYNALLOC1(int,savedptn,savedptn_sz,n,"dreadnaut");
 #endif
+
                 sgn = n;
 		memcpy(savedg,canong,m*(size_t)n*sizeof(setword));
                 for (i = n; --i >= 0;)
@@ -844,13 +857,16 @@ case '@'
 		    savedptn[i] = ptn[i];
 		}
                 sgorg = labelorg;
+
             }
             else if (cvalid_sg)
 	    {
+
 #if !MAXN
                 DYNALLOC1(int,savedlab,savedlab_sz,n,"dreadnaut");
                 DYNALLOC1(int,savedptn,savedptn_sz,n,"dreadnaut");
 #endif
+
 		sgn = n;
 		copy_sg(&canong_sg,&savedg_sg);
                 for (i = n; --i >= 0;)
@@ -859,17 +875,19 @@ case '@'
 		    savedptn[i] = ptn[i];
 		}
                 sgorg = labelorg;
+
 	    }
+
             else
 	    {
-                fprintf(ERRFILE,"h is not defined\n");
-		FLUSHANDPROMPT;
+                //fprintf(ERRFILE,"h is not defined\n");
+		//FLUSHANDPROMPT;
 	    }
 
 
 /***********************************************************
 case 'n'
-**********************************************************
+**********************************************************/
 number = 1;
 numNodes = 3;
 
@@ -895,7 +913,7 @@ DYNALLOC1(set,active,active_sz,m,"dreadnaut");
 
 /***********************************************************
 case 'g'
-**********************************************************
+**********************************************************/
 minus = FALSE;
 if (SPARSEREP(mode))
 {
@@ -909,29 +927,53 @@ else
 #if !MAXN
 DYNALLOC2(graph,g,g_sz,n,m,"dreadnaut");
 #endif
-readgraph(INFILE,g,options_digraph,prompt,FALSE,
-          options_linelength,m,n);
+//readgraph(INFILE,g,options_digraph,prompt,FALSE,
+//          options_linelength,m,n);
 gvalid = TRUE;
 cvalid = FALSE;
 }
 ovalid = FALSE;
 
+edgeSize = 2 * (numNodes * (numNodes - 1) / 2);
+
+free(g_sg.e);
+g_sg.e = NULL;
+g_sg.e = (int*)malloc(edgeSize * sizeof(int));
 edge = g_sg.e;
+for(int i = 0; i < edgeSize; i++){
+    edge[i] = 0;
+}
 
 mat = numToLowMat(number, numNodes);
+
+printf("Mat: \n");
+for(int i = 0; i < numNodes * numNodes; i++){
+    printf("%d\n", mat[i]);
+}
+printf("\n");
+
+count = 0;
 for(int row = 0; row < numNodes; row++){
     for(int col = 0; col < numNodes; col++){
         if(row == col) continue;
         if(mat[numNodes * row + col] == 1){
-            *(edge++) = row;
-            *(edge++) = col;
+            printf("%d %d\n", row, col);
+            edge[count++] = row + 1;
+            edge[count++] = col + 1;
         }
     }
 }
 
+printf("Edge: \n");
+for(int i = 0; i < (2 * (numNodes * (numNodes - 1) / 2)); i++){
+    printf("%d\n", edge[i]);
+}
+printf("\n");
+
+
 /***********************************************************
 case 'x'
-**********************************************************
+**********************************************************/
 
 minus = FALSE;
             if (mode == TRACES_MODE)
@@ -941,7 +983,7 @@ minus = FALSE;
                 if (!gvalid_sg)
                 {
                     fprintf(ERRFILE,"g is not defined\n");
-		    FLUSHANDPROMPT;
+		    //FLUSHANDPROMPT;
                     //break;
                 }
 
@@ -1072,7 +1114,7 @@ minus = FALSE;
                 if (!gvalid && !gvalid_sg)
                 {
                     fprintf(ERRFILE,"g is not defined\n");
-		    FLUSHANDPROMPT;
+		    //FLUSHANDPROMPT;
                     //break;
                 }
 		if (mode == DENSE_MODE)
@@ -1227,13 +1269,13 @@ minus = FALSE;
 		if (stats.errstatus)
 		{
 		    if (stats.errstatus == NAUABORTED)
-		        fprintf(ERRFILE,"nauty aborted\n");
+		        //fprintf(ERRFILE,"nauty aborted\n");
 		    else if (stats.errstatus == NAUKILLED)
-		        fprintf(ERRFILE,"nauty interrupted\n");
+		        //fprintf(ERRFILE,"nauty interrupted\n");
                     else
-                        fprintf(ERRFILE,
-                        "nauty returned error status %d [this can't happen]\n",
-                           stats.errstatus);
+                        //fprintf(ERRFILE,
+                        //"nauty returned error status %d [this can't happen]\n",
+                           //stats.errstatus);
 		    cvalid = cvalid_sg = ovalid = FALSE;
 		}
                 else
@@ -1244,54 +1286,54 @@ minus = FALSE;
 			else                    cvalid_sg = TRUE;
 		    }
                     ovalid = TRUE;
-                    fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
-		    fprintf(outfile,"; grpsize=");
-		    writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
-                    fprintf(outfile,"; %d gen%s",
+                    //fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
+		    //fprintf(outfile,"; grpsize=");
+		    //writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
+                    //fprintf(outfile,"; %d gen%s",
                             SS(stats.numgenerators,"","s"));
-                    fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
+                    //fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
                     if (stats.numbadleaves)
-                        fprintf(outfile," (%lu bad lea%s)",
+                        //fprintf(outfile," (%lu bad lea%s)",
                             SS(stats.numbadleaves,"f","ves"));
-                    fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
+                    //fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
+                    //fprintf(outfile,"tctotal=%lu",stats.tctotal);
                     if (options_getcanon)
-                        fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
+                        //fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
 #ifdef  CPUTIME
                     fprintf(outfile,actmult == 1 ?
                               "cpu time = %.2f seconds\n" :
                               "cpu time = %.7f seconds\n",
                             (timeafter-timebefore)/actmult);
 #else
-                    fprintf(outfile,"\n");
+                    //fprintf(outfile,"\n");
 #endif
 		    if (mode == DENSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint)
                     {
-                        fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
-                            invarproc[options_invarproc].name,
-			    stats.invsuccesses,stats.invapplics);
+                        //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
+                          //  invarproc[options_invarproc].name,
+			    //stats.invsuccesses,stats.invapplics);
                         if (stats.invarsuclevel > 0)
-                            fprintf(outfile," beginning at level %d.\n",
-                                    stats.invarsuclevel);
+                            //fprintf(outfile," beginning at level %d.\n",
+                              //      stats.invarsuclevel);
                         else
-                            fprintf(outfile,".\n");
+                            //fprintf(outfile,".\n");
                     }
 		    if (mode == SPARSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint_sg)
                     {
-                        fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
-                            invarproc[options_invarproc].name_sg,
-			    stats.invsuccesses,stats.invapplics);
+                        //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
+                         //   invarproc[options_invarproc].name_sg,
+			    //stats.invsuccesses,stats.invapplics);
                         if (stats.invarsuclevel > 0)
-                            fprintf(outfile," beginning at level %d.\n",
+                            //fprintf(outfile," beginning at level %d.\n",
                                     stats.invarsuclevel);
                         else
-                            fprintf(outfile,".\n");
+                            //fprintf(outfile,".\n");
                     }
                 }
 	    }
-
+/*
 /***********************************************************
 case '##'
 **********************************************************
