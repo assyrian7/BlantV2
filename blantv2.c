@@ -968,13 +968,12 @@ printf("Edge: \n");
 for(int i = 0; i < (2 * (numNodes * (numNodes - 1) / 2)); i++){
     printf("%d\n", edge[i]);
 }
-printf("\n");
-
+printf("\nHere");
 
 /***********************************************************
 case 'x'
 **********************************************************/
-
+/*
 minus = FALSE;
             if (mode == TRACES_MODE)
 	    {
@@ -982,11 +981,11 @@ minus = FALSE;
                 cvalid_sg = FALSE;
                 if (!gvalid_sg)
                 {
-                    fprintf(ERRFILE,"g is not defined\n");
+                    //fprintf(ERRFILE,"g is not defined\n");
 		    //FLUSHANDPROMPT;
                     //break;
                 }
-
+/*
 	        traces_opts.getcanon = options_getcanon;
 	        traces_opts.writeautoms = options_writeautoms;
 	        traces_opts.cartesian = options_cartesian;
@@ -1001,107 +1000,113 @@ minus = FALSE;
 		    traces_opts.generators = NULL;
 
 #if !MAXN
-		DYNALLOC1(int,tempptn,tempptn_sz,n,"dreadnaut");
+		//DYNALLOC1(int,tempptn,tempptn_sz,n,"dreadnaut");
 #endif
+
 		if (!pvalid) unitptn(lab,ptn,&numcells,n);
-		memcpy(tempptn,ptn,n*sizeof(int));
+		//memcpy(tempptn,ptn,n*sizeof(int));
+
 		savednc = numcells;
 		if (options_invarproc != 1 && options_maxinvarlevel > 0)
                 {
+                /*
                     if (options_maxinvarlevel > 1) fprintf(ERRFILE,
 		    "Warning: Traces only uses invariants at the top level\n");
+
                     if (invarproc[options_invarproc].entrypoint_sg)
 		    {
 #ifdef  CPUTIME
                         timebefore = CPUTIME;
 #endif
-			cellstarts(tempptn,0,active,m,n);
-			doref((graph*)&g_sg,lab,tempptn,0,&savednc,&qinvar,perm,
-			    active,&refcode,
-                    	    options_sg.userrefproc ? options_sg.userrefproc :
-                    	    refine_sg,
-                    	    invarproc[options_invarproc].entrypoint_sg,0,0,
-                    	    options_invararg,options_digraph,m,n);
-                        fprintf(outfile,"Invariant %s %s; %d cell%s",
-			    invarproc[options_invarproc].name_sg,
-                            (qinvar == 2 ? "worked" : "failed"),
-			    SS(savednc,"","s"));
+			//cellstarts(tempptn,0,active,m,n);
+            //doref((graph*)&g_sg,lab,tempptn,0,&savednc,&qinvar,perm,
+              //active,&refcode,
+                //    	    options_sg.userrefproc ? options_sg.userrefproc :
+                  //  	    refine_sg,
+                    //	    invarproc[options_invarproc].entrypoint_sg,0,0,
+                    	//    options_invararg,options_digraph,m,n);
+                        //fprintf(outfile,"Invariant %s %s; %d cell%s",
+			    //invarproc[options_invarproc].name_sg,
+                 //           (qinvar == 2 ? "worked" : "failed"),
+			    //SS(savednc,"","s"));
 #ifdef  CPUTIME
                         timeafter = CPUTIME;
 			fprintf(outfile,"; cpu time = %.2f seconds\n",
                     	    timeafter-timebefore);
 #else
-		 	fprintf(outfile,"\n");
+		 	//fprintf(outfile,"\n");
 #endif
 		    }
-                }
+               }
 
 #ifdef  CPUTIME
                 timebefore = CPUTIME;
 #endif
 		actmult = 0;
-                setsigcatcher();
+		/*
+                //setsigcatcher();
                 for (;;)
                 {
                     traces_opts.defaultptn = !pvalid;
-                    Traces(&g_sg,lab,tempptn,orbits,&traces_opts,&traces_stats,
-		       &canong_sg);
+                    //Traces(&g_sg,lab,tempptn,orbits,&traces_opts,&traces_stats,
+		       //&canong_sg);
 		    if (traces_stats.errstatus) break;
                     traces_opts.writeautoms = FALSE;
 		    traces_opts.verbosity = 0;
 		    ++actmult;
 		    if (multiplicity > 0 && actmult >= multiplicity) break;
+
 #ifdef  CPUTIME
 		    if (mintime > 0.0 && (actmult < 20 || !(actmult&7))
 		       	   && CPUTIME >= timebefore+mintime)
-			break;
+			//break;
 #endif
-                }
-                unsetsigcatcher();
+              //  }
+                //unsetsigcatcher();
 
 #ifdef  CPUTIME
                 timeafter = CPUTIME;
 #endif
             if (traces_stats.errstatus)
             {
-                if (traces_stats.errstatus == NAUABORTED)
-                    fprintf(ERRFILE,"Traces aborted\n");
-                else if (traces_stats.errstatus == NAUKILLED)
-                    fprintf(ERRFILE,"Traces interrupted\n");
-                else
-                    fprintf(ERRFILE,
-                      "Traces returned error status %d [this can't happen]\n",
-                      traces_stats.errstatus);
+                if (traces_stats.errstatus == NAUABORTED){}
+                    //fprintf(ERRFILE,"Traces aborted\n");
+                else if (traces_stats.errstatus == NAUKILLED){}
+                    //fprintf(ERRFILE,"Traces interrupted\n");
+                else{}
+                    //fprintf(ERRFILE,
+                    //  "Traces returned error status %d [this can't happen]\n",
+                    //  traces_stats.errstatus);
                 cvalid = cvalid_sg = ovalid = FALSE;
             }
             else
             {
-                fprintf(outfile,"%d orbit%s",
-				SS(traces_stats.numorbits,"","s"));
-		fprintf(outfile,"; grpsize=");
-		writegroupsize(outfile,
-			       traces_stats.grpsize1,traces_stats.grpsize2);
-                fprintf(outfile,"; %d gen%s",
-                     SS(traces_stats.numgenerators,"","s"));
-                fprintf(outfile,
-		     "; %lu node%s ", SS(traces_stats.numnodes,"","s"));
-		if (traces_stats.interrupted)
-		    fprintf(outfile,
-			    "(%lu interrupted, ",traces_stats.interrupted);
+                //fprintf(outfile,"%d orbit%s",
+				//SS(traces_stats.numorbits,"","s"));
+		//fprintf(outfile,"; grpsize=");
+		//writegroupsize(outfile,
+			//       traces_stats.grpsize1,traces_stats.grpsize2);
+                //fprintf(outfile,"; %d gen%s",
+                    // SS(traces_stats.numgenerators,"","s"));
+                //fprintf(outfile,
+		     //"; %lu node%s ", SS(traces_stats.numnodes,"","s"));
+		if (traces_stats.interrupted){}
+		    //fprintf(outfile,
+			//    "(%lu interrupted, ",traces_stats.interrupted);
 		else
-		    fprintf(outfile,"(");
-                fprintf(outfile,"%lu peak); maxlev=%d\n",
-		    traces_stats.peaknodes,traces_stats.treedepth);
+		    //fprintf(outfile,"(");
+              //  fprintf(outfile,"%lu peak); maxlev=%d\n",
+		    //traces_stats.peaknodes,traces_stats.treedepth);
                 if (options_getcanon)
-                    fprintf(outfile,
-		            "canupdates=%d; ",traces_stats.canupdates);
+                    //fprintf(outfile,
+		            //"canupdates=%d; ",traces_stats.canupdates);
 #ifdef  CPUTIME
                 fprintf(outfile,actmult == 1 ?
                               "cpu time = %.2f seconds\n" :
                               "cpu time = %.7f seconds\n",
 			      (timeafter-timebefore)/actmult);
 #else
-		fprintf(outfile,"\n");
+		//fprintf(outfile,"\n");
 #endif
 		if (options_getcanon) cvalid_sg = TRUE;
 		ovalid = TRUE;
@@ -1113,7 +1118,7 @@ minus = FALSE;
                 cvalid = cvalid_sg = FALSE;
                 if (!gvalid && !gvalid_sg)
                 {
-                    fprintf(ERRFILE,"g is not defined\n");
+                    //fprintf(ERRFILE,"g is not defined\n");
 		    //FLUSHANDPROMPT;
                     //break;
                 }
@@ -1121,7 +1126,7 @@ minus = FALSE;
 		{
                     if (pvalid)
                     {
-                        fprintf(outfile,"[fixing partition]\n");
+                        //fprintf(outfile,"[fixing partition]\n");
                         options.defaultptn = FALSE;
                     }
                     else
@@ -1142,8 +1147,8 @@ minus = FALSE;
 		    else
 		       options.maxinvarlevel = 0;
 		    options.invararg = options_invararg;
-		    if (options_schreier > 0)
-			schreier_fails(options_schreier);
+		    if (options_schreier > 0){}
+			//schreier_fails(options_schreier);
 
                     if (umask & U_NODE)  options.usernodeproc = NODEPROC;
                     else                 options.usernodeproc = NULL;
@@ -1158,9 +1163,9 @@ minus = FALSE;
 
 #if !MAXN
                     if (options_getcanon)
-                        DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
-                    DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
-								"dreadnaut");
+                       // DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
+                    //DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
+//								"dreadnaut");
 #endif
                     firstpath = TRUE;
                     options.writeautoms = options_writeautoms;
@@ -1169,11 +1174,11 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    setsigcatcher();
+		    //setsigcatcher();
                     for (;;)
                     {
-                        nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
-                             2*m*worksize,m,n,canong);
+            //            nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
+              //               2*m*worksize,m,n,canong);
 			if (stats.errstatus) break;
                         options.writeautoms = FALSE;
                         options.writemarkers = FALSE;
@@ -1186,7 +1191,7 @@ minus = FALSE;
 			    break;
 #endif
                     }
-                    unsetsigcatcher();
+                    //unsetsigcatcher();
 #ifdef  CPUTIME
                     timeafter = CPUTIME;
 #endif
@@ -1195,7 +1200,7 @@ minus = FALSE;
 		{
                     if (pvalid)
                     {
-                        fprintf(outfile,"[fixing partition]\n");
+                        //fprintf(outfile,"[fixing partition]\n");
                         options_sg.defaultptn = FALSE;
                     }
                     else
@@ -1216,8 +1221,8 @@ minus = FALSE;
 		       options_sg.maxinvarlevel = 0;
 		    options_sg.invararg = options_invararg;
                     options_sg.tc_level = options_tc_level;
-		    if (options_schreier > 0)
-			schreier_fails(options_schreier);
+		    if (options_schreier > 0){}
+			//schreier_fails(options_schreier);
 
 
                     if (umask & U_NODE)  options_sg.usernodeproc = NODEPROC;
@@ -1232,8 +1237,8 @@ minus = FALSE;
                     else                 options_sg.usercanonproc = NULL;
 
 #if !MAXN
-                    DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
-								"dreadnaut");
+                    //DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
+						//		"dreadnaut");
 #endif
 
                     firstpath = TRUE;
@@ -1243,11 +1248,11 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    setsigcatcher();
+		    //setsigcatcher();
                     for (;;)
                     {
-                        nauty((graph*)&g_sg,lab,ptn,NULL,orbits,&options_sg,
-                         &stats,workspace,2*m*worksize,m,n,(graph*)&canong_sg);
+                //        nauty((graph*)&g_sg,lab,ptn,NULL,orbits,&options_sg,
+                  //       &stats,workspace,2*m*worksize,m,n,(graph*)&canong_sg);
 			if (stats.errstatus) break;
                         options_sg.writeautoms = FALSE;
                         options_sg.writemarkers = FALSE;
@@ -1260,7 +1265,7 @@ minus = FALSE;
 			    break;
 #endif
                     }
-		    unsetsigcatcher();
+		    //unsetsigcatcher();
 #ifdef  CPUTIME
                     timeafter = CPUTIME;
 #endif
@@ -1268,9 +1273,9 @@ minus = FALSE;
 
 		if (stats.errstatus)
 		{
-		    if (stats.errstatus == NAUABORTED)
+		    if (stats.errstatus == NAUABORTED){}
 		        //fprintf(ERRFILE,"nauty aborted\n");
-		    else if (stats.errstatus == NAUKILLED)
+		    else if (stats.errstatus == NAUKILLED){}
 		        //fprintf(ERRFILE,"nauty interrupted\n");
                     else
                         //fprintf(ERRFILE,
@@ -1290,14 +1295,14 @@ minus = FALSE;
 		    //fprintf(outfile,"; grpsize=");
 		    //writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
                     //fprintf(outfile,"; %d gen%s",
-                            SS(stats.numgenerators,"","s"));
+                            //SS(stats.numgenerators,"","s"));
                     //fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
-                    if (stats.numbadleaves)
+                    if (stats.numbadleaves){}
                         //fprintf(outfile," (%lu bad lea%s)",
-                            SS(stats.numbadleaves,"f","ves"));
+                            //SS(stats.numbadleaves,"f","ves"));
                     //fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
                     //fprintf(outfile,"tctotal=%lu",stats.tctotal);
-                    if (options_getcanon)
+                    if (options_getcanon){}
                         //fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
 #ifdef  CPUTIME
                     fprintf(outfile,actmult == 1 ?
@@ -1313,10 +1318,10 @@ minus = FALSE;
                         //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
                           //  invarproc[options_invarproc].name,
 			    //stats.invsuccesses,stats.invapplics);
-                        if (stats.invarsuclevel > 0)
+                        if (stats.invarsuclevel > 0){}
                             //fprintf(outfile," beginning at level %d.\n",
                               //      stats.invarsuclevel);
-                        else
+                        else{}
                             //fprintf(outfile,".\n");
                     }
 		    if (mode == SPARSE_MODE && options_maxinvarlevel != 0
@@ -1325,14 +1330,16 @@ minus = FALSE;
                         //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
                          //   invarproc[options_invarproc].name_sg,
 			    //stats.invsuccesses,stats.invapplics);
-                        if (stats.invarsuclevel > 0)
+                        if (stats.invarsuclevel > 0){}
                             //fprintf(outfile," beginning at level %d.\n",
-                                    stats.invarsuclevel);
-                        else
+                                    //stats.invarsuclevel);
+                        else{}
                             //fprintf(outfile,".\n");
                     }
                 }
 	    }
+
+*/
 /*
 /***********************************************************
 case '##'
