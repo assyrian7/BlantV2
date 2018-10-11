@@ -59,7 +59,7 @@
 	"gtools.h"
 	"gutils.h"
 
-1539134833 source:/home/assyrian7/Desktop/BlantV2/blantv2.c
+1539227760 source:/home/assyrian7/Desktop/BlantV2/blantv2.c
 	"gtools.h"
 	"nautinv.h"
 	"schreier.h"
@@ -121,7 +121,7 @@
 1468910416 /home/assyrian7/Desktop/BlantV2/naugroup.h
 	"nauty.h"
 
-1538965784 source:/home/assyrian7/Desktop/BlantV2/dreadnaut.c
+1539226459 source:/home/assyrian7/Desktop/BlantV2/dreadnaut.c
 	"gtools.h"
 	"nautinv.h"
 	"schreier.h"
@@ -379,8 +379,9 @@
 
 1538436408 /home/assyrian7/Desktop/BlantV2/splay.c
 
-1468910416 source:/home/assyrian7/Desktop/BlantV2/traces.c
+1539228353 source:/home/assyrian7/Desktop/BlantV2/traces.c
 	"traces.h"
+	"stdio.h"
 	"cleanup.e"
 	"sorttemplates.c"
 	"sorttemplates.c"

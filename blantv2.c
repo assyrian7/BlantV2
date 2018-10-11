@@ -373,7 +373,7 @@ gvalid = TRUE;
 cvalid = FALSE;
 
 ovalid = FALSE;
-
+mode = TRACES_MODE;
 
 int number = 4;
 int numNodes = 3;
@@ -447,8 +447,8 @@ for(int row = 0; row < numNodes; row++){
         if(row == col) continue;
         if(mat[numNodes * row + col] == 1){
             printf("%d %d\n", row, col);
-            edge[count++] = row + 1;
-            edge[count++] = col + 1;
+            edge[count++] = row;
+            edge[count++] = col;
         }
     }
 }
@@ -461,6 +461,7 @@ printf("\n");
 /***********************************************************
 case 'x'
 **********************************************************/
+printf("In Traces: Mode traces %d\n", mode == TRACES_MODE);
 
 minus = FALSE;
             if (mode == TRACES_MODE)
@@ -533,6 +534,7 @@ minus = FALSE;
                     traces_opts.defaultptn = !pvalid;
                     Traces(&g_sg,lab,tempptn,orbits,&traces_opts,&traces_stats,
 		       &canong_sg);
+		       printf("Difference: %d %d\n", g_sg.e[0], canong_sg.e[0]);
 		    if (traces_stats.errstatus) break;
                     traces_opts.writeautoms = FALSE;
 		    traces_opts.verbosity = 0;
@@ -888,7 +890,7 @@ case '@'
 /***********************************************************
 case 'n'
 **********************************************************/
-number = 1;
+number = 5;
 numNodes = 3;
 
 minus = FALSE;
@@ -958,8 +960,8 @@ for(int row = 0; row < numNodes; row++){
         if(row == col) continue;
         if(mat[numNodes * row + col] == 1){
             printf("%d %d\n", row, col);
-            edge[count++] = row + 1;
-            edge[count++] = col + 1;
+            edge[count++] = row;
+            edge[count++] = col;
         }
     }
 }
@@ -973,7 +975,7 @@ printf("\nHere");
 /***********************************************************
 case 'x'
 **********************************************************/
-/*
+
 minus = FALSE;
             if (mode == TRACES_MODE)
 	    {
@@ -985,7 +987,8 @@ minus = FALSE;
 		    //FLUSHANDPROMPT;
                     //break;
                 }
-/*
+
+
 	        traces_opts.getcanon = options_getcanon;
 	        traces_opts.writeautoms = options_writeautoms;
 	        traces_opts.cartesian = options_cartesian;
@@ -999,6 +1002,7 @@ minus = FALSE;
 		else
 		    traces_opts.generators = NULL;
 
+
 #if !MAXN
 		//DYNALLOC1(int,tempptn,tempptn_sz,n,"dreadnaut");
 #endif
@@ -1009,7 +1013,9 @@ minus = FALSE;
 		savednc = numcells;
 		if (options_invarproc != 1 && options_maxinvarlevel > 0)
                 {
-                /*
+
+
+
                     if (options_maxinvarlevel > 1) fprintf(ERRFILE,
 		    "Warning: Traces only uses invariants at the top level\n");
 
@@ -1018,23 +1024,23 @@ minus = FALSE;
 #ifdef  CPUTIME
                         timebefore = CPUTIME;
 #endif
-			//cellstarts(tempptn,0,active,m,n);
-            //doref((graph*)&g_sg,lab,tempptn,0,&savednc,&qinvar,perm,
-              //active,&refcode,
-                //    	    options_sg.userrefproc ? options_sg.userrefproc :
-                  //  	    refine_sg,
-                    //	    invarproc[options_invarproc].entrypoint_sg,0,0,
-                    	//    options_invararg,options_digraph,m,n);
-                        //fprintf(outfile,"Invariant %s %s; %d cell%s",
-			    //invarproc[options_invarproc].name_sg,
-                 //           (qinvar == 2 ? "worked" : "failed"),
-			    //SS(savednc,"","s"));
+			cellstarts(tempptn,0,active,m,n);
+            doref((graph*)&g_sg,lab,tempptn,0,&savednc,&qinvar,perm,
+              active,&refcode,
+                    	    options_sg.userrefproc ? options_sg.userrefproc :
+                    	    refine_sg,
+                    	    invarproc[options_invarproc].entrypoint_sg,0,0,
+                    	    options_invararg,options_digraph,m,n);
+                        fprintf(outfile,"Invariant %s %s; %d cell%s",
+			    invarproc[options_invarproc].name_sg,
+                            (qinvar == 2 ? "worked" : "failed"),
+			    SS(savednc,"","s"));
 #ifdef  CPUTIME
                         timeafter = CPUTIME;
 			fprintf(outfile,"; cpu time = %.2f seconds\n",
                     	    timeafter-timebefore);
 #else
-		 	//fprintf(outfile,"\n");
+		 	fprintf(outfile,"\n");
 #endif
 		    }
                }
@@ -1043,13 +1049,14 @@ minus = FALSE;
                 timebefore = CPUTIME;
 #endif
 		actmult = 0;
-		/*
-                //setsigcatcher();
+
+
+                setsigcatcher();
                 for (;;)
                 {
                     traces_opts.defaultptn = !pvalid;
-                    //Traces(&g_sg,lab,tempptn,orbits,&traces_opts,&traces_stats,
-		       //&canong_sg);
+                    Traces(&g_sg,lab,tempptn,orbits,&traces_opts,&traces_stats,
+		       &canong_sg);
 		    if (traces_stats.errstatus) break;
                     traces_opts.writeautoms = FALSE;
 		    traces_opts.verbosity = 0;
@@ -1057,56 +1064,62 @@ minus = FALSE;
 		    if (multiplicity > 0 && actmult >= multiplicity) break;
 
 #ifdef  CPUTIME
-		    if (mintime > 0.0 && (actmult < 20 || !(actmult&7))
+/*
+		    if (mintime > 0.0 && (actmult < 20 || !(actmult&7)){}
 		       	   && CPUTIME >= timebefore+mintime)
 			//break;
+			*/
 #endif
-              //  }
-                //unsetsigcatcher();
+              }
+                unsetsigcatcher();
 
 #ifdef  CPUTIME
                 timeafter = CPUTIME;
 #endif
             if (traces_stats.errstatus)
             {
-                if (traces_stats.errstatus == NAUABORTED){}
-                    //fprintf(ERRFILE,"Traces aborted\n");
-                else if (traces_stats.errstatus == NAUKILLED){}
-                    //fprintf(ERRFILE,"Traces interrupted\n");
-                else{}
-                    //fprintf(ERRFILE,
-                    //  "Traces returned error status %d [this can't happen]\n",
-                    //  traces_stats.errstatus);
+                if (traces_stats.errstatus == NAUABORTED)
+                    fprintf(ERRFILE,"Traces aborted\n");
+                else if (traces_stats.errstatus == NAUKILLED)
+                    fprintf(ERRFILE,"Traces interrupted\n");
+                else
+                    fprintf(ERRFILE,
+                      "Traces returned error status %d [this can't happen]\n",
+                      traces_stats.errstatus);
                 cvalid = cvalid_sg = ovalid = FALSE;
             }
             else
             {
-                //fprintf(outfile,"%d orbit%s",
-				//SS(traces_stats.numorbits,"","s"));
-		//fprintf(outfile,"; grpsize=");
-		//writegroupsize(outfile,
-			//       traces_stats.grpsize1,traces_stats.grpsize2);
-                //fprintf(outfile,"; %d gen%s",
-                    // SS(traces_stats.numgenerators,"","s"));
-                //fprintf(outfile,
-		     //"; %lu node%s ", SS(traces_stats.numnodes,"","s"));
-		if (traces_stats.interrupted){}
-		    //fprintf(outfile,
-			//    "(%lu interrupted, ",traces_stats.interrupted);
+                fprintf(outfile,"%d orbit%s",
+				SS(traces_stats.numorbits,"","s"));
+		fprintf(outfile,"; grpsize=");
+		writegroupsize(outfile,
+			       traces_stats.grpsize1,traces_stats.grpsize2);
+                fprintf(outfile,"; %d gen%s",
+                     SS(traces_stats.numgenerators,"","s"));
+                fprintf(outfile,
+		     "; %lu node%s ", SS(traces_stats.numnodes,"","s"));
+
+
+		if (traces_stats.interrupted)
+		    fprintf(outfile,
+			    "(%lu interrupted, ",traces_stats.interrupted);
 		else
-		    //fprintf(outfile,"(");
-              //  fprintf(outfile,"%lu peak); maxlev=%d\n",
-		    //traces_stats.peaknodes,traces_stats.treedepth);
+		    fprintf(outfile,"(");
+                fprintf(outfile,"%lu peak); maxlev=%d\n",
+		    traces_stats.peaknodes,traces_stats.treedepth);
                 if (options_getcanon)
-                    //fprintf(outfile,
-		            //"canupdates=%d; ",traces_stats.canupdates);
+                    fprintf(outfile,
+		            "canupdates=%d; ",traces_stats.canupdates);
+
+
 #ifdef  CPUTIME
                 fprintf(outfile,actmult == 1 ?
                               "cpu time = %.2f seconds\n" :
                               "cpu time = %.7f seconds\n",
 			      (timeafter-timebefore)/actmult);
 #else
-		//fprintf(outfile,"\n");
+		fprintf(outfile,"\n");
 #endif
 		if (options_getcanon) cvalid_sg = TRUE;
 		ovalid = TRUE;
@@ -1118,15 +1131,16 @@ minus = FALSE;
                 cvalid = cvalid_sg = FALSE;
                 if (!gvalid && !gvalid_sg)
                 {
-                    //fprintf(ERRFILE,"g is not defined\n");
-		    //FLUSHANDPROMPT;
+                    fprintf(ERRFILE,"g is not defined\n");
+		    FLUSHANDPROMPT;
                     //break;
                 }
+
 		if (mode == DENSE_MODE)
 		{
                     if (pvalid)
                     {
-                        //fprintf(outfile,"[fixing partition]\n");
+                        fprintf(outfile,"[fixing partition]\n");
                         options.defaultptn = FALSE;
                     }
                     else
@@ -1148,7 +1162,7 @@ minus = FALSE;
 		       options.maxinvarlevel = 0;
 		    options.invararg = options_invararg;
 		    if (options_schreier > 0){}
-			//schreier_fails(options_schreier);
+			schreier_fails(options_schreier);
 
                     if (umask & U_NODE)  options.usernodeproc = NODEPROC;
                     else                 options.usernodeproc = NULL;
@@ -1163,9 +1177,9 @@ minus = FALSE;
 
 #if !MAXN
                     if (options_getcanon)
-                       // DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
-                    //DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
-//								"dreadnaut");
+                    DYNALLOC2(graph,canong,canong_sz,n,m,"dreadnaut");
+                    DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
+								"dreadnaut");
 #endif
                     firstpath = TRUE;
                     options.writeautoms = options_writeautoms;
@@ -1174,11 +1188,12 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    //setsigcatcher();
+		    setsigcatcher();
+
                     for (;;)
                     {
-            //            nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
-              //               2*m*worksize,m,n,canong);
+                        nauty(g,lab,ptn,NULL,orbits,&options,&stats,workspace,
+                             2*m*worksize,m,n,canong);
 			if (stats.errstatus) break;
                         options.writeautoms = FALSE;
                         options.writemarkers = FALSE;
@@ -1191,16 +1206,18 @@ minus = FALSE;
 			    break;
 #endif
                     }
-                    //unsetsigcatcher();
+                    unsetsigcatcher();
 #ifdef  CPUTIME
                     timeafter = CPUTIME;
 #endif
 		}
+
+
 		if (mode == SPARSE_MODE)
 		{
                     if (pvalid)
                     {
-                        //fprintf(outfile,"[fixing partition]\n");
+                        fprintf(outfile,"[fixing partition]\n");
                         options_sg.defaultptn = FALSE;
                     }
                     else
@@ -1222,7 +1239,7 @@ minus = FALSE;
 		    options_sg.invararg = options_invararg;
                     options_sg.tc_level = options_tc_level;
 		    if (options_schreier > 0){}
-			//schreier_fails(options_schreier);
+			schreier_fails(options_schreier);
 
 
                     if (umask & U_NODE)  options_sg.usernodeproc = NODEPROC;
@@ -1236,9 +1253,10 @@ minus = FALSE;
                     if (umask & U_CANON) options_sg.usercanonproc = CANONPROC;
                     else                 options_sg.usercanonproc = NULL;
 
+
 #if !MAXN
-                    //DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
-						//		"dreadnaut");
+                    DYNALLOC1(setword,workspace,workspace_sz,2*m*worksize,
+								"dreadnaut");
 #endif
 
                     firstpath = TRUE;
@@ -1248,11 +1266,11 @@ minus = FALSE;
                     timebefore = CPUTIME;
 #endif
 		    actmult = 0;
-		    //setsigcatcher();
+		    setsigcatcher();
                     for (;;)
                     {
-                //        nauty((graph*)&g_sg,lab,ptn,NULL,orbits,&options_sg,
-                  //       &stats,workspace,2*m*worksize,m,n,(graph*)&canong_sg);
+                        nauty((graph*)&g_sg,lab,ptn,NULL,orbits,&options_sg,
+                         &stats,workspace,2*m*worksize,m,n,(graph*)&canong_sg);
 			if (stats.errstatus) break;
                         options_sg.writeautoms = FALSE;
                         options_sg.writemarkers = FALSE;
@@ -1265,22 +1283,23 @@ minus = FALSE;
 			    break;
 #endif
                     }
-		    //unsetsigcatcher();
+		    unsetsigcatcher();
 #ifdef  CPUTIME
                     timeafter = CPUTIME;
 #endif
 		}
 
+
 		if (stats.errstatus)
 		{
-		    if (stats.errstatus == NAUABORTED){}
-		        //fprintf(ERRFILE,"nauty aborted\n");
-		    else if (stats.errstatus == NAUKILLED){}
-		        //fprintf(ERRFILE,"nauty interrupted\n");
+		    if (stats.errstatus == NAUABORTED)
+		        fprintf(ERRFILE,"nauty aborted\n");
+		    else if (stats.errstatus == NAUKILLED)
+		        fprintf(ERRFILE,"nauty interrupted\n");
                     else
-                        //fprintf(ERRFILE,
-                        //"nauty returned error status %d [this can't happen]\n",
-                           //stats.errstatus);
+                        fprintf(ERRFILE,
+                        "nauty returned error status %d [this can't happen]\n",
+                           stats.errstatus);
 		    cvalid = cvalid_sg = ovalid = FALSE;
 		}
                 else
@@ -1290,20 +1309,25 @@ minus = FALSE;
 			if (mode == DENSE_MODE) cvalid = TRUE;
 			else                    cvalid_sg = TRUE;
 		    }
+
+
                     ovalid = TRUE;
-                    //fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
-		    //fprintf(outfile,"; grpsize=");
+                    /*
+                    fprintf(outfile,"%d orbit%s",SS(stats.numorbits,"","s"));
+		    fprintf(outfile,"; grpsize=");
 		    //writegroupsize(outfile,stats.grpsize1,stats.grpsize2);
-                    //fprintf(outfile,"; %d gen%s",
-                            //SS(stats.numgenerators,"","s"));
-                    //fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
-                    if (stats.numbadleaves){}
-                        //fprintf(outfile," (%lu bad lea%s)",
-                            //SS(stats.numbadleaves,"f","ves"));
-                    //fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
-                    //fprintf(outfile,"tctotal=%lu",stats.tctotal);
-                    if (options_getcanon){}
-                        //fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
+                    fprintf(outfile,"; %d gen%s",
+                            SS(stats.numgenerators,"","s"));
+                    fprintf(outfile,"; %lu node%s",SS(stats.numnodes,"","s"));
+                    if (stats.numbadleaves)
+                        fprintf(outfile," (%lu bad lea%s)",
+                            SS(stats.numbadleaves,"f","ves"));
+                    fprintf(outfile,"; maxlev=%d\n", stats.maxlevel);
+                    fprintf(outfile,"tctotal=%lu",stats.tctotal);
+                    if (options_getcanon)
+                        fprintf(outfile,"canupdates=%lu; ",stats.canupdates);
+
+
 #ifdef  CPUTIME
                     fprintf(outfile,actmult == 1 ?
                               "cpu time = %.2f seconds\n" :
@@ -1315,15 +1339,18 @@ minus = FALSE;
 		    if (mode == DENSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint)
                     {
-                        //fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
-                          //  invarproc[options_invarproc].name,
-			    //stats.invsuccesses,stats.invapplics);
-                        if (stats.invarsuclevel > 0){}
-                            //fprintf(outfile," beginning at level %d.\n",
-                              //      stats.invarsuclevel);
-                        else{}
-                            //fprintf(outfile,".\n");
+                    /*
+                        fprintf(outfile,"invarproc \"%s\" succeeded %lu/%lu",
+                            invarproc[options_invarproc].name,
+			    stats.invsuccesses,stats.invapplics);
+                        if (stats.invarsuclevel > 0)
+                            fprintf(outfile," beginning at level %d.\n",
+                                    stats.invarsuclevel);
+                        else
+                            fprintf(outfile,".\n");
+                    */
                     }
+
 		    if (mode == SPARSE_MODE && options_maxinvarlevel != 0
 		       && invarproc[options_invarproc].entrypoint_sg)
                     {
@@ -1337,21 +1364,22 @@ minus = FALSE;
                             //fprintf(outfile,".\n");
                     }
                 }
-	    }
 
-*/
-/*
+
+
 /***********************************************************
 case '##'
-**********************************************************
-
+**********************************************************/
+/*
+cvalid = TRUE;
 if (cvalid || cvalid_sg)
             {
+            sgn = n;
                 if (sgn > 0)
                 {
-                    if (sgn != n)
-                        fprintf(outfile,
-                              "h and h' have different sizes.\n");
+                    if (sgn != n){}
+                        //fprintf(outfile,
+                              //"h and h' have different sizes.\n");
                     else
                     {
 			if (cvalid)
@@ -1359,9 +1387,11 @@ if (cvalid || cvalid_sg)
                             for (sli = 0; sli < m*(size_t)n; ++sli)
                                 if (savedg[sli] != canong[sli]) break;
 			    same = (sli == m*(size_t)n);
+                printf("Are same: %B", same);
 			}
 			else
 			    same = aresame_sg(&canong_sg,&savedg_sg);
+			    printf("Are same: %B", same);
 
                         if (!same)
                             fprintf(outfile,"h and h' are different.\n");
@@ -1371,29 +1401,30 @@ if (cvalid || cvalid_sg)
 				if ((ptn[i] == 0) != (savedptn[i] == 0))
 				    break;
 			    if (i < n)
-                                fprintf(outfile,
+                                printf(
                  "h and h' are identical but have incompatible colourings.\n");
 			    else
-                                fprintf(outfile,
-                                    "h and h' are identical.\n");
+                              printf("h and h' are identical.\n");
 
-                                putmapping(outfile,savedlab,sgorg,
-                                       lab,labelorg,options_linelength,n);
+                                //putmapping(outfile,savedlab,sgorg,
+                                   //    lab,labelorg,options_linelength,n);
                         }
                     }
                 }
                 else
 		{
-                    fprintf(ERRFILE,"h' is not defined\n");
-		    FLUSHANDPROMPT;
+                    printf("h' is not defined\n");
+		    //FLUSHANDPROMPT;
 		}
             }
             else
 	    {
-                fprintf(ERRFILE,"h is not defined\n");
-		FLUSHANDPROMPT;
+                printf("h is not defined\n");
+		//FLUSHANDPROMPT;
 	    }
-    */
+        */
+        same = aresame_sg(&canong_sg,&savedg_sg);
+        printf("Are same: %d", same);
     return 0;
 }
 
